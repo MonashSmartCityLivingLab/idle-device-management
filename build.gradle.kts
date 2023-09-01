@@ -19,11 +19,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.1.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.22")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.3")
     implementation("io.github.oshai:kotlin-logging:5.1.0")
 }
 
