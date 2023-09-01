@@ -1,0 +1,28 @@
+[
+  {
+    "siteName": "HumaniSE Lab",
+    "timeZoneId": "Australia/Melbourne",
+    "rooms": [
+      {
+        "roomName": "BG06",
+        "appliances": [
+          {
+            "deviceName": "Dell docking station",
+            "plugName": "athom-smart-plug-v2-a76dee",
+            "standbyThreshold": 0.5,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 900,
+            "onTimeoutSeconds": 900,
+            "startTime": "08:00",
+            "endTime": "21:00"
+          }
+        ],
+        "motionSensors": [
+          {
+            "sensorName": "athom-presence-sensor-f9a715"
+          }
+        ]
+      }
+    ]
+  }
+]
