@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - gh-actions
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: temurin
+          cache: gradle
+      - name: Build
+        run: gradle build
+      - name: Save files
+        uses: actions/upload-artifact@v3
+        with:
+          name: urbanflo-sumo-server
+          path: |
+            build/libs/*.jar
+            !build/libs/*-plain.jar
+            LICENSE
+            README.md
