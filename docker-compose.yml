@@ -1,0 +1,10 @@
+services:
+  main:
+#    image: ghcr.io/igloo-4002/urbanflo-sumo-server:develop
+    build:
+      context: .
+    ports:
+      - 4100:4100
+#    volumes:
+#      - uploads:/opt/urbanflo-sumo-server/uploads
+    restart: unless-stopped
