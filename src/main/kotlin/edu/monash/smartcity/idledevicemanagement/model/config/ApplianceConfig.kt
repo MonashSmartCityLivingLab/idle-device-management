@@ -7,6 +7,6 @@ data class ApplianceConfig(
     val recommendedForAutoOff: Boolean,
     val cutoffWaitSeconds: Long,
     val onTimeoutSeconds: Long,
-    val startTime: String,
-    val endTime: String
+    val startTime: String?,
+    val endTime: String?
 )
