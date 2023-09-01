@@ -5,7 +5,8 @@ on:
     branches:
       - main
       - gh-actions
-
+env:
+  SITES_CONFIG: config.example.json
 jobs:
   docker:
     runs-on: ubuntu-latest
