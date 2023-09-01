@@ -1,5 +1,6 @@
 FROM gradle:8-jdk17-jammy AS gradle-builder
 WORKDIR /opt/idle-device-management
+ENV SITES_CONFIG=config.example.json
 COPY . .
 RUN gradle build
 
