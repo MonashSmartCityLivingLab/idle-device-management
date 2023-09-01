@@ -41,6 +41,9 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
             if (appliance.turnOnTask.trigger != null) {
                 scheduler.schedule(appliance.turnOnTask, appliance.turnOnTask.trigger)
             }
+            if (appliance.turnOffTask.trigger != null) {
+                scheduler.schedule(appliance.turnOffTask, appliance.turnOffTask.trigger)
+            }
         }
     }
 }
