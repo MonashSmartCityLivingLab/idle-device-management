@@ -11,3 +11,5 @@ management:
   endpoint:
     health:
       enabled: true
+idle-device-management:
+  sites-config: ${SITES_CONFIG:#{"config.json"}}
