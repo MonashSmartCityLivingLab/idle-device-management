@@ -2,7 +2,9 @@ package edu.monash.smartcity.idledevicemanagement.service
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import edu.monash.smartcity.idledevicemanagement.model.config.Appliance
+import edu.monash.smartcity.idledevicemanagement.model.Appliance
+import edu.monash.smartcity.idledevicemanagement.model.OccupancyData
+import edu.monash.smartcity.idledevicemanagement.model.PowerData
 import edu.monash.smartcity.idledevicemanagement.model.config.SiteConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
@@ -32,5 +34,13 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
             }
         }
         appliances = mapOf(*pairs.toTypedArray())
+    }
+
+    fun updatePowerData(data: PowerData) {
+        TODO()
+    }
+
+    fun updateOccupancyData(data: OccupancyData) {
+        TODO()
     }
 }
