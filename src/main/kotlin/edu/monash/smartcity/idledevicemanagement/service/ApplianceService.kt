@@ -29,11 +29,11 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
         for (site in sitesConfig) {
             for (room in site.rooms) {
                 for (appliance in room.appliances) {
-                    pairs.add(appliance.deviceName to Appliance(appliance, ZoneId.of(site.timeZoneId)))
+                    pairs.add(appliance.deviceName to Appliance(appliance, ZoneId.of(site.timeZoneId), room.motionSensors))
                 }
             }
         }
-        appliances = mapOf(*pairs.toTypedArray())
+        appliances = pairs.toMap()
     }
 
     fun updatePowerData(data: PowerData) {
