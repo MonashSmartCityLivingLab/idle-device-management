@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import edu.monash.smartcity.idledevicemanagement.model.Appliance
 import edu.monash.smartcity.idledevicemanagement.model.OccupancyData
+import edu.monash.smartcity.idledevicemanagement.model.PlugStatusData
 import edu.monash.smartcity.idledevicemanagement.model.PowerData
 import edu.monash.smartcity.idledevicemanagement.model.config.SiteConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -37,10 +38,18 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
     }
 
     fun updatePowerData(data: PowerData) {
-        TODO()
+        appliances[data.deviceName]?.updatePowerData(data)
     }
 
     fun updateOccupancyData(data: OccupancyData) {
-        TODO()
+        appliances.filter { (_, appliance) ->
+            appliance.hasMotionSensorInRoom(data.deviceName)
+        }.values.forEach { appliance ->
+            appliance.updateOccupancyData(data)
+        }
+    }
+
+    fun updatePlugStatusData(data: PlugStatusData) {
+        appliances[data.deviceName]?.updatePlugStatusData(data)
     }
 }

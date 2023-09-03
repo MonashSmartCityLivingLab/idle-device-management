@@ -70,6 +70,8 @@ class Appliance(
         latestPlugStatusData = data
     }
 
+    fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name == deviceName }
+
     private fun isRoomOccupied(): Boolean {
         // if ALL motion sensors hasn't got any data, assume that room is occupied
         return motionSensors.values.all { sensor -> sensor.latestOccupancyData == null }
