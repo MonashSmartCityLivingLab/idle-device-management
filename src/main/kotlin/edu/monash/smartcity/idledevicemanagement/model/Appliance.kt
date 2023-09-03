@@ -34,6 +34,8 @@ class Appliance(
 
     fun updatePowerData(data: PowerData) {
         latestPowerData = data
+
+        if (!applianceConfig.recommendedForAutoOff) { return }
         val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(data.timestampMilliseconds), timeZone).toLocalTime()
         val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
         if (isRoomOccupied()) {
@@ -49,7 +51,8 @@ class Appliance(
 
     fun updateOccupancyData(data: OccupancyData) {
         motionSensors[data.deviceName]?.latestOccupancyData = data
-        // TODO: check matching occupancy sensors
+
+        if (!applianceConfig.recommendedForAutoOff) { return }
         val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(data.timestampMilliseconds), timeZone).toLocalTime()
         val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
         val power = latestPowerData?.power
