@@ -42,9 +42,9 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
     }
 
     fun updateOccupancyData(data: OccupancyData) {
-        appliances.filter { (_, appliance) ->
+        appliances.values.filter { appliance ->
             appliance.hasMotionSensorInRoom(data.deviceName)
-        }.values.forEach { appliance ->
+        }.forEach { appliance ->
             appliance.updateOccupancyData(data)
         }
     }

@@ -9,7 +9,7 @@
           {
             "deviceName": "HP monitor",
             "plugName": "athom-smart-plug-v2-a75176",
-            "standbyThreshold": 0.5,
+            "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
             "onTimeoutSeconds": 900,
@@ -67,16 +67,6 @@
             "endTime": "22:00"
           },
           {
-            "deviceName": "Dell docking station",
-            "plugName": "athom-smart-plug-v2-a76dee",
-            "standbyThreshold": 0.5,
-            "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
-          },
-          {
             "deviceName": "Motion sensor",
             "plugName": "athom-smart-plug-v2-a7ec4d",
             "standbyThreshold": 0,
@@ -89,7 +79,7 @@
           {
             "deviceName": "Desk height adjustment",
             "plugName": "athom-smart-plug-v2-a7f445",
-            "standbyThreshold": 0.5,
+            "standbyThreshold": 0.3,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
             "onTimeoutSeconds": 900,
@@ -99,7 +89,17 @@
           {
             "deviceName": "Dell monitor",
             "plugName": "athom-smart-plug-v2-a7f4ca",
-            "standbyThreshold": 0.5,
+            "standbyThreshold": 0.1,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 900,
+            "onTimeoutSeconds": 900,
+            "startTime": "08:00",
+            "endTime": "22:00"
+          },
+          {
+            "deviceName": "Dell monitor",
+            "plugName": "athom-smart-plug-v2-a7f695",
+            "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
             "onTimeoutSeconds": 900,
@@ -109,7 +109,7 @@
           {
             "deviceName": "Alogic docking station",
             "plugName": "athom-smart-plug-v2-a7f704",
-            "standbyThreshold": 0.5,
+            "standbyThreshold": 1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
             "onTimeoutSeconds": 900,
