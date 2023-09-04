@@ -30,7 +30,7 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
         for (site in sitesConfig) {
             for (room in site.rooms) {
                 for (appliance in room.appliances) {
-                    pairs.add(appliance.deviceName to Appliance(appliance, ZoneId.of(site.timeZoneId), room.motionSensors))
+                    pairs.add(appliance.sensorName to Appliance(appliance, ZoneId.of(site.timeZoneId), room.motionSensors))
                 }
             }
         }
@@ -38,18 +38,18 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
     }
 
     fun updatePowerData(data: PowerData) {
-        appliances[data.deviceName]?.updatePowerData(data)
+        appliances[data.sensorName]?.updatePowerData(data)
     }
 
     fun updateOccupancyData(data: OccupancyData) {
         appliances.values.filter { appliance ->
-            appliance.hasMotionSensorInRoom(data.deviceName)
+            appliance.hasMotionSensorInRoom(data.sensorName)
         }.forEach { appliance ->
             appliance.updateOccupancyData(data)
         }
     }
 
     fun updatePlugStatusData(data: PlugStatusData) {
-        appliances[data.deviceName]?.updatePlugStatusData(data)
+        appliances[data.sensorName]?.updatePlugStatusData(data)
     }
 }

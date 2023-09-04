@@ -2,6 +2,6 @@ package edu.monash.smartcity.idledevicemanagement.model
 
 data class PowerData(
     val timestampMilliseconds: Long,
-    val deviceName: String,
+    val sensorName: String,
     val power: Double
 )

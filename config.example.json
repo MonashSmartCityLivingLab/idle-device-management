@@ -8,7 +8,7 @@
         "appliances": [
           {
             "deviceName": "HP monitor",
-            "plugName": "athom-smart-plug-v2-a75176",
+            "sensorName": "athom-smart-plug-v2-a75176",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -18,7 +18,7 @@
           },
           {
             "deviceName": "Dell docking station",
-            "plugName": "athom-smart-plug-v2-a76dee",
+            "sensorName": "athom-smart-plug-v2-a76dee",
             "standbyThreshold": 0.5,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -28,7 +28,7 @@
           },
           {
             "deviceName": "WiFi router",
-            "plugName": "athom-smart-plug-v2-a788fa",
+            "sensorName": "athom-smart-plug-v2-a788fa",
             "standbyThreshold": 0,
             "recommendedForAutoOff": false,
             "cutoffWaitSeconds": 0,
@@ -38,7 +38,7 @@
           },
           {
             "deviceName": "Nothing",
-            "plugName": "athom-smart-plug-v2-a78d3f",
+            "sensorName": "athom-smart-plug-v2-a78d3f",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -48,7 +48,7 @@
           },
           {
             "deviceName": "Nothing",
-            "plugName": "athom-smart-plug-v2-a79120",
+            "sensorName": "athom-smart-plug-v2-a79120",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -58,7 +58,7 @@
           },
           {
             "deviceName": "Nothing",
-            "plugName": "athom-smart-plug-v2-a795b9",
+            "sensorName": "athom-smart-plug-v2-a795b9",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -68,7 +68,7 @@
           },
           {
             "deviceName": "Motion sensor",
-            "plugName": "athom-smart-plug-v2-a7ec4d",
+            "sensorName": "athom-smart-plug-v2-a7ec4d",
             "standbyThreshold": 0,
             "recommendedForAutoOff": false,
             "cutoffWaitSeconds": 0,
@@ -78,7 +78,7 @@
           },
           {
             "deviceName": "Desk height adjustment",
-            "plugName": "athom-smart-plug-v2-a7f445",
+            "sensorName": "athom-smart-plug-v2-a7f445",
             "standbyThreshold": 0.3,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -88,7 +88,7 @@
           },
           {
             "deviceName": "Dell monitor",
-            "plugName": "athom-smart-plug-v2-a7f4ca",
+            "sensorName": "athom-smart-plug-v2-a7f4ca",
             "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -98,7 +98,7 @@
           },
           {
             "deviceName": "Dell monitor",
-            "plugName": "athom-smart-plug-v2-a7f695",
+            "sensorName": "athom-smart-plug-v2-a7f695",
             "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
@@ -108,7 +108,7 @@
           },
           {
             "deviceName": "Alogic docking station",
-            "plugName": "athom-smart-plug-v2-a7f704",
+            "sensorName": "athom-smart-plug-v2-a7f704",
             "standbyThreshold": 1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,

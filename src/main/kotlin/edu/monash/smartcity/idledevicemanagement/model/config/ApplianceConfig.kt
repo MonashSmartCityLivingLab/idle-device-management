@@ -2,7 +2,7 @@ package edu.monash.smartcity.idledevicemanagement.model.config
 
 data class ApplianceConfig(
     val deviceName: String,
-    val plugName: String,
+    val sensorName: String,
     val standbyThreshold: Double,
     val recommendedForAutoOff: Boolean,
     val cutoffWaitSeconds: Long,

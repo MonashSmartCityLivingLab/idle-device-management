@@ -38,7 +38,7 @@ class Appliance(
         if (!applianceConfig.recommendedForAutoOff) { return }
         val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(data.timestampMilliseconds), timeZone).toLocalTime()
         val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
-        if (isRoomOccupied()) {
+        if (!isRoomOccupied()) {
             if (currentTime >= time && currentTime < time) {
                 if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                     logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
@@ -50,7 +50,7 @@ class Appliance(
     }
 
     fun updateOccupancyData(data: OccupancyData) {
-        motionSensors[data.deviceName]?.latestOccupancyData = data
+        motionSensors[data.sensorName]?.latestOccupancyData = data
 
         if (!applianceConfig.recommendedForAutoOff) { return }
         val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(data.timestampMilliseconds), timeZone).toLocalTime()
