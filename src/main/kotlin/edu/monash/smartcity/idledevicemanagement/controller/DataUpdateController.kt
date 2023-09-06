@@ -2,6 +2,7 @@ package edu.monash.smartcity.idledevicemanagement.controller
 
 import app.urbanflo.urbanflosumoserver.model.ErrorResponse
 import com.fasterxml.jackson.core.JsonProcessingException
+import edu.monash.smartcity.idledevicemanagement.model.IpAddressData
 import edu.monash.smartcity.idledevicemanagement.model.OccupancyData
 import edu.monash.smartcity.idledevicemanagement.model.PlugStatusData
 import edu.monash.smartcity.idledevicemanagement.model.PowerData
@@ -36,6 +37,12 @@ class DataUpdateController(val applianceService: ApplianceService) {
     @ResponseBody
     fun updatePlugStatusData(@RequestBody data: PlugStatusData) {
         applianceService.updatePlugStatusData(data)
+    }
+
+    @PostMapping("/ip-address")
+    @ResponseBody
+    fun updateIpAddress(@RequestBody data: IpAddressData) {
+        applianceService.updateIpAddress(data)
     }
 
     @ExceptionHandler(JsonProcessingException::class)

@@ -6,10 +6,8 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler
 import java.time.Instant
-import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 private val logger = KotlinLogging.logger {}
 
@@ -19,10 +17,11 @@ class Appliance(
     motionSensorsConfig: List<MotionSensorConfig>
 ) {
     private val scheduler: TaskScheduler = DefaultManagedTaskScheduler()
-    private val startTime = LocalTime.parse(applianceConfig.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
-    private val endTime = LocalTime.parse(applianceConfig.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
+//    private val startTime = LocalTime.parse(applianceConfig.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
+//    private val endTime = LocalTime.parse(applianceConfig.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
     private val motionSensors: Map<String, MotionSensor>
 
+    private var latestIpAddressData: IpAddressData? = null
     private var latestPowerData: PowerData? = null
     private var latestPlugStatusData: PlugStatusData? = null
 
@@ -71,6 +70,10 @@ class Appliance(
 
     fun updatePlugStatusData(data: PlugStatusData) {
         latestPlugStatusData = data
+    }
+
+    fun updateIpAddress(data: IpAddressData) {
+        latestIpAddressData = data
     }
 
     fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name == deviceName }

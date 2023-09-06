@@ -1,0 +1,16 @@
+[Unit]
+Description=Idle Device Management
+Documentation=https://github.com/MonashSmartCityLivingLab/idle-device-management
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=taatta
+Group=taatta
+ExecStart=java -jar -Dspring.profiles.active=prod /usr/local/idle-device-management/idle-device-management.jar
+Restart=on-failure
+EnvironmentFile=/etc/idle-device-management.env
+
+[Install]
+WantedBy=multi-user.target
+Alias=idle-device-management.service

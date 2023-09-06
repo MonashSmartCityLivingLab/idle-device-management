@@ -2,10 +2,7 @@ package edu.monash.smartcity.idledevicemanagement.service
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import edu.monash.smartcity.idledevicemanagement.model.Appliance
-import edu.monash.smartcity.idledevicemanagement.model.OccupancyData
-import edu.monash.smartcity.idledevicemanagement.model.PlugStatusData
-import edu.monash.smartcity.idledevicemanagement.model.PowerData
+import edu.monash.smartcity.idledevicemanagement.model.*
 import edu.monash.smartcity.idledevicemanagement.model.config.SiteConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
@@ -51,5 +48,9 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
 
     fun updatePlugStatusData(data: PlugStatusData) {
         appliances[data.sensorName]?.updatePlugStatusData(data)
+    }
+
+    fun updateIpAddress(data: IpAddressData) {
+        appliances[data.sensorName]?.updateIpAddress(data)
     }
 }
