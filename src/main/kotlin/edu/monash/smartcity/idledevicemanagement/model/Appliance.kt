@@ -2,9 +2,12 @@ package edu.monash.smartcity.idledevicemanagement.model
 
 import edu.monash.smartcity.idledevicemanagement.model.config.ApplianceConfig
 import edu.monash.smartcity.idledevicemanagement.model.config.MotionSensorConfig
+import edu.monash.smartcity.idledevicemanagement.task.ApplianceTurnOffTask
+import edu.monash.smartcity.idledevicemanagement.task.ApplianceTurnOnTask
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler
+import java.net.InetAddress
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -13,17 +16,19 @@ import java.util.concurrent.Future
 private val logger = KotlinLogging.logger {}
 
 class Appliance(
-    val applianceConfig: ApplianceConfig,
-    val timeZone: ZoneId,
+    private val applianceConfig: ApplianceConfig,
+    private val timeZone: ZoneId,
     motionSensorsConfig: List<MotionSensorConfig>
 ) {
     private val scheduler: TaskScheduler = DefaultManagedTaskScheduler()
     private val motionSensors: Map<String, MotionSensor>
 
+    var turnOffTaskFuture: Future<*>? = null
+    var turnOnTaskFuture: Future<*>? = null
+
     private var latestIpAddressData: IpAddressData? = null
     private var latestPowerData: PowerData? = null
     private var latestPlugStatusData: PlugStatusData? = null
-    var turnOffFuture: Future<*>? = null
 
     init {
         motionSensors = motionSensorsConfig.associate { sensor ->
@@ -41,11 +46,11 @@ class Appliance(
             if (currentTime >= time && currentTime < time) {
                 if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                     logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
-                    cancelTurnOffFuture()
+                    addTurnOnTask()
                 }
-            } else if (data.power < applianceConfig.standbyThreshold && turnOffFuture?.isDone == true) {
+            } else if (data.power < applianceConfig.standbyThreshold && latestPlugStatusData?.isOn == true) {
                 logger.info { "Turning off appliance ${applianceConfig.deviceName} at $currentTime due to idle" }
-                // TODO: add task
+                addTurnOffTask()
             }
         }
     }
@@ -60,16 +65,16 @@ class Appliance(
         if (isRoomOccupied()) {
             if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to occupancy" }
-                cancelTurnOffFuture()
+                addTurnOnTask()
             }
         } else if (currentTime >= time && currentTime < time) {
             if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
-                cancelTurnOffFuture()
+                addTurnOnTask()
             }
-        } else if (power != null && power < applianceConfig.standbyThreshold) { // if power is null, assume it's above threshold
+        } else if (power != null && power < applianceConfig.standbyThreshold && latestPlugStatusData?.isOn == true) { // if power is null, assume it's above threshold
             logger.info { "Turning off appliance ${applianceConfig.deviceName} at $currentTime due to idle" }
-            // TODO: add task
+            addTurnOffTask()
         }
     }
 
@@ -89,8 +94,19 @@ class Appliance(
                 || motionSensors.values.any { sensor -> sensor.latestOccupancyData?.occupied ?: false }
     }
 
-    private fun cancelTurnOffFuture() {
-        turnOffFuture?.cancel(true)
-        turnOffFuture = null
+    private fun addTurnOffTask() {
+        latestIpAddressData?.ipAddress.let { ipAddress ->
+            turnOnTaskFuture?.cancel(true)
+            turnOnTaskFuture = null
+            scheduler.schedule(ApplianceTurnOffTask(InetAddress.getByName(ipAddress)), Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds))
+        }
+    }
+
+    private fun addTurnOnTask() {
+        latestIpAddressData?.ipAddress.let { ipAddress ->
+            turnOffTaskFuture?.cancel(true)
+            turnOffTaskFuture = null
+            scheduler.schedule(ApplianceTurnOnTask(InetAddress.getByName(ipAddress)), Instant.now())
+        }
     }
 }
