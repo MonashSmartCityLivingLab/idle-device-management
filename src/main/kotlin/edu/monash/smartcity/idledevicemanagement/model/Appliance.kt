@@ -8,6 +8,7 @@ import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.concurrent.Future
 
 private val logger = KotlinLogging.logger {}
 
@@ -17,13 +18,12 @@ class Appliance(
     motionSensorsConfig: List<MotionSensorConfig>
 ) {
     private val scheduler: TaskScheduler = DefaultManagedTaskScheduler()
-//    private val startTime = LocalTime.parse(applianceConfig.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
-//    private val endTime = LocalTime.parse(applianceConfig.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
     private val motionSensors: Map<String, MotionSensor>
 
     private var latestIpAddressData: IpAddressData? = null
     private var latestPowerData: PowerData? = null
     private var latestPlugStatusData: PlugStatusData? = null
+    var turnOffFuture: Future<*>? = null
 
     init {
         motionSensors = motionSensorsConfig.associate { sensor ->
@@ -41,9 +41,11 @@ class Appliance(
             if (currentTime >= time && currentTime < time) {
                 if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                     logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
+                    cancelTurnOffFuture()
                 }
-            } else if (data.power < applianceConfig.standbyThreshold) {
+            } else if (data.power < applianceConfig.standbyThreshold && turnOffFuture?.isDone == true) {
                 logger.info { "Turning off appliance ${applianceConfig.deviceName} at $currentTime due to idle" }
+                // TODO: add task
             }
         }
     }
@@ -58,13 +60,16 @@ class Appliance(
         if (isRoomOccupied()) {
             if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to occupancy" }
+                cancelTurnOffFuture()
             }
         } else if (currentTime >= time && currentTime < time) {
             if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
+                cancelTurnOffFuture()
             }
         } else if (power != null && power < applianceConfig.standbyThreshold) { // if power is null, assume it's above threshold
             logger.info { "Turning off appliance ${applianceConfig.deviceName} at $currentTime due to idle" }
+            // TODO: add task
         }
     }
 
@@ -82,5 +87,10 @@ class Appliance(
         // if ALL motion sensors hasn't got any data, assume that room is occupied
         return motionSensors.values.all { sensor -> sensor.latestOccupancyData == null }
                 || motionSensors.values.any { sensor -> sensor.latestOccupancyData?.occupied ?: false }
+    }
+
+    private fun cancelTurnOffFuture() {
+        turnOffFuture?.cancel(true)
+        turnOffFuture = null
     }
 }
