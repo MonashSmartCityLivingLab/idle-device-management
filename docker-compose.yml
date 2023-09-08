@@ -1,10 +1,10 @@
 services:
   main:
-#    image: ghcr.io/igloo-4002/urbanflo-sumo-server:develop
+    image: ghcr.io/monashsmartcitylivinglab/idle-device-management:main
     build:
       context: .
     ports:
       - 4100:4100
-#    volumes:
-#      - uploads:/opt/urbanflo-sumo-server/uploads
     restart: unless-stopped
+    volumes:
+      - ./config.example.json:/opt/idle-device-management/config.json:ro
