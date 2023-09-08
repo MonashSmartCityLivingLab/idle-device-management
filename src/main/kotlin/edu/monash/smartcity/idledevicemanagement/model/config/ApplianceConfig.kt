@@ -6,7 +6,5 @@ data class ApplianceConfig(
     val standbyThreshold: Double,
     val recommendedForAutoOff: Boolean,
     val cutoffWaitSeconds: Long,
-    val onTimeoutSeconds: Long,
-    val startTime: String?,
-    val endTime: String?
+    val standardUseTimes: List<StandardUseTime>
 )

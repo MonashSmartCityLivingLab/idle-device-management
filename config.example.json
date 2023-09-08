@@ -12,9 +12,12 @@
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Dell docking station",
@@ -22,9 +25,12 @@
             "standbyThreshold": 0.5,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "WiFi router",
@@ -32,9 +38,12 @@
             "standbyThreshold": 0,
             "recommendedForAutoOff": false,
             "cutoffWaitSeconds": 0,
-            "onTimeoutSeconds": 0,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Nothing",
@@ -42,9 +51,12 @@
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Nothing",
@@ -52,9 +64,12 @@
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Nothing",
@@ -62,9 +77,12 @@
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Motion sensor",
@@ -72,9 +90,12 @@
             "standbyThreshold": 0,
             "recommendedForAutoOff": false,
             "cutoffWaitSeconds": 0,
-            "onTimeoutSeconds": 0,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Desk height adjustment",
@@ -82,9 +103,12 @@
             "standbyThreshold": 0.3,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Dell monitor",
@@ -92,9 +116,12 @@
             "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Dell monitor",
@@ -102,9 +129,12 @@
             "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           },
           {
             "deviceName": "Alogic docking station",
@@ -112,9 +142,12 @@
             "standbyThreshold": 1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 900,
-            "onTimeoutSeconds": 900,
-            "startTime": "08:00",
-            "endTime": "22:00"
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00"
+              }
+            ]
           }
         ],
         "motionSensors": [

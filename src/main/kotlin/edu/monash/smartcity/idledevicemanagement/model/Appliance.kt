@@ -9,8 +9,10 @@ import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler
 import java.net.InetAddress
 import java.time.Instant
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.Future
 
 private val logger = KotlinLogging.logger {}
@@ -40,10 +42,9 @@ class Appliance(
         latestPowerData = data
 
         if (!applianceConfig.recommendedForAutoOff) { return }
-        val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(data.timestampMilliseconds), timeZone).toLocalTime()
         val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
         if (!isRoomOccupied()) {
-            if (currentTime >= time && currentTime < time) {
+            if (isWithinStandardUseTime()) {
                 if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                     logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
                     addTurnOnTask()
@@ -59,7 +60,6 @@ class Appliance(
         motionSensors[data.sensorName]?.latestOccupancyData = data
 
         if (!applianceConfig.recommendedForAutoOff) { return }
-        val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(data.timestampMilliseconds), timeZone).toLocalTime()
         val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
         val power = latestPowerData?.power
         if (isRoomOccupied()) {
@@ -67,7 +67,7 @@ class Appliance(
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to occupancy" }
                 addTurnOnTask()
             }
-        } else if (currentTime >= time && currentTime < time) {
+        } else if (isWithinStandardUseTime()) {
             if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
                 addTurnOnTask()
@@ -107,6 +107,15 @@ class Appliance(
             turnOffTaskFuture?.cancel(true)
             turnOffTaskFuture = null
             scheduler.schedule(ApplianceTurnOnTask(InetAddress.getByName(ipAddress)), Instant.now())
+        }
+    }
+
+    private fun isWithinStandardUseTime(): Boolean {
+        val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
+        return applianceConfig.standardUseTimes.any {standardUseTime ->
+            val start = LocalTime.parse(standardUseTime.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
+            val end = LocalTime.parse(standardUseTime.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
+            currentTime >= start && currentTime < end
         }
     }
 }
