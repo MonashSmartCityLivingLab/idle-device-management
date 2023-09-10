@@ -20,7 +20,7 @@ class ApplianceTurnOnTask(private val ipAddress: InetAddress) : Runnable {
         val requset = HttpEntity<String>(headers)
         try {
             val response = restTemplate.postForEntity(url, requset, String::class.java)
-            logger.info { "Response from $ipAddress: ${response.body} (status code ${response.statusCode}" }
+            logger.info { "Response from $ipAddress: ${response.body} (status code ${response.statusCode})" }
         } catch (e: RestClientException) {
             logger.error(e) { "Cannot send turn on command to $ipAddress" }
         }
