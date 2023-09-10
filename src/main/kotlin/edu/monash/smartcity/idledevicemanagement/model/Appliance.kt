@@ -80,8 +80,8 @@ class Appliance(
     }
 
     private fun addTurnOffTask() {
-        turnOffTaskFuture?.cancel(true)
-        turnOffTaskFuture = null
+        turnOnTaskFuture?.cancel(true)
+        turnOnTaskFuture = null
         if (latestPlugStatus == true && (turnOffTaskFuture == null || turnOffTaskFuture?.isDone == true)) {
             getIpAddress()?.let { ipAddress ->
                 val cutoffTime = Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
@@ -95,8 +95,8 @@ class Appliance(
     }
 
     private fun addTurnOnTask() {
-        turnOnTaskFuture?.cancel(true)
-        turnOnTaskFuture = null
+        turnOffTaskFuture?.cancel(true)
+        turnOffTaskFuture = null
         if ((latestPlugStatus == null || latestPlugStatus == false) && (turnOnTaskFuture == null || turnOnTaskFuture?.isDone == true)) {  // if plug status is null, assume it's off
             getIpAddress()?.let { ipAddress ->
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})" }
