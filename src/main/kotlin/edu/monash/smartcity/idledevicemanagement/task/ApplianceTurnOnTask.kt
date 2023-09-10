@@ -38,5 +38,4 @@ class ApplianceTurnOnTask(private val ipAddress: InetAddress) : Runnable {
             return httpHeaders
         }
     }
-
 }
