@@ -19,7 +19,8 @@ class ApplianceTurnOnTask(private val ipAddress: InetAddress) : Runnable {
             .path("/switch/athom_smart_plug_v2/turn_on").build().toUri()
         val requset = HttpEntity<String>(headers)
         try {
-            restTemplate.postForEntity(url, requset, String::class.java)
+            val response = restTemplate.postForEntity(url, requset, String::class.java)
+            logger.info { "Response from $ipAddress: ${response.body} (status code ${response.statusCode}" }
         } catch (e: RestClientException) {
             logger.error(e) { "Cannot send turn on command to $ipAddress" }
         }

@@ -78,12 +78,11 @@ class Appliance(
     }
 
     private fun addTurnOffTask() {
-        turnOnTaskFuture?.cancel(true)
-        turnOnTaskFuture = null
+        cancelAllTasks()
         if (latestPlugStatus == true) {
             getIpAddress()?.let { ipAddress ->
                 logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})" }
-                scheduler.schedule(
+                turnOffTaskFuture = scheduler.schedule(
                     ApplianceTurnOffTask(ipAddress),
                     Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
                 )
@@ -92,14 +91,20 @@ class Appliance(
     }
 
     private fun addTurnOnTask() {
-        turnOffTaskFuture?.cancel(true)
-        turnOffTaskFuture = null
+        cancelAllTasks()
         if (latestPlugStatus == null || latestPlugStatus == false) {  // if plug status is null, assume it's off
             getIpAddress()?.let { ipAddress ->
                 logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})" }
-                scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now())
+                turnOnTaskFuture = scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now())
             }
         }
+    }
+
+    private fun cancelAllTasks() {
+        turnOnTaskFuture?.cancel(true)
+        turnOnTaskFuture = null
+        turnOffTaskFuture?.cancel(true)
+        turnOffTaskFuture = null
     }
 
     private fun isWithinStandardUseTime(): Boolean {
