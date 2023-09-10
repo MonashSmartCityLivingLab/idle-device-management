@@ -41,13 +41,11 @@ class Appliance(
 
     fun updatePowerData(data: PowerData) {
         latestPower = data.power
-
         checkPlugStatus()
     }
 
     fun updateOccupancyData(data: OccupancyData) {
         motionSensors[data.sensorName]?.latestOccupancy = data.occupied
-
         checkPlugStatus()
     }
 
@@ -84,11 +82,13 @@ class Appliance(
     private fun addTurnOffTask() {
         turnOnTaskFuture?.cancel(true)
         turnOnTaskFuture = null
-        getIpAddress()?.let { ipAddress ->
-            scheduler.schedule(
-                ApplianceTurnOffTask(ipAddress),
-                Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
-            )
+        if (latestPlugStatus == true) {
+            getIpAddress()?.let { ipAddress ->
+                scheduler.schedule(
+                    ApplianceTurnOffTask(ipAddress),
+                    Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
+                )
+            }
         }
     }
 
