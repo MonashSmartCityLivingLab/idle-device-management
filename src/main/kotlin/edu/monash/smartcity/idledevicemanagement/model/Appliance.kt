@@ -67,10 +67,24 @@ class Appliance(
                 || motionSensors.values.any { sensor -> sensor.latestOccupancy ?: false }
     }
 
+    private fun checkPlugStatus() {
+        if (!applianceConfig.recommendedForAutoOff) {
+            return
+        }
+        val power = latestPower
+        if (isRoomOccupied()) {
+            logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to occupancy" }
+            addTurnOnTask()
+        } else if (!isWithinStandardUseTime() && power != null && power < applianceConfig.standbyThreshold && latestPlugStatus == true) { // if power is null, assume it's above threshold
+            logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to idle" }
+            addTurnOffTask()
+        }
+    }
+
     private fun addTurnOffTask() {
+        turnOnTaskFuture?.cancel(true)
+        turnOnTaskFuture = null
         getIpAddress()?.let { ipAddress ->
-            turnOnTaskFuture?.cancel(true)
-            turnOnTaskFuture = null
             scheduler.schedule(
                 ApplianceTurnOffTask(ipAddress),
                 Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
@@ -78,27 +92,13 @@ class Appliance(
         }
     }
 
-    private fun checkPlugStatus() {
-        if (!applianceConfig.recommendedForAutoOff) {
-            return
-        }
-        val power = latestPower
-        if (isRoomOccupied()) {
-            if (latestPlugStatus == null || latestPlugStatus == false) { // if plug status is null, assume it's off
-                logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to occupancy" }
-                addTurnOnTask()
-            }
-        } else if (!isWithinStandardUseTime() && power != null && power < applianceConfig.standbyThreshold && latestPlugStatus == true) { // if power is null, assume it's above threshold
-            logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to idle" }
-            addTurnOffTask()
-        }
-    }
-
     private fun addTurnOnTask() {
-        getIpAddress()?.let { ipAddress ->
-            turnOffTaskFuture?.cancel(true)
-            turnOffTaskFuture = null
-            scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now())
+        turnOffTaskFuture?.cancel(true)
+        turnOffTaskFuture = null
+        if (latestPlugStatus == null || latestPlugStatus == false) {  // if plug status is null, assume it's off
+            getIpAddress()?.let { ipAddress ->
+                scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now())
+            }
         }
     }
 
