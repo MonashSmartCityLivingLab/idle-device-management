@@ -28,9 +28,9 @@ class Appliance(
     var turnOffTaskFuture: Future<*>? = null
     var turnOnTaskFuture: Future<*>? = null
 
-    private var latestIpAddressData: IpAddressData? = null
-    private var latestPowerData: PowerData? = null
-    private var latestPlugStatusData: PlugStatusData? = null
+    private var latestIpAddress: InetAddress? = null
+    private var latestPower: Double? = null
+    private var latestPlugStatus: Boolean? = null
 
     init {
         motionSensors = motionSensorsConfig.associate { sensor ->
@@ -39,74 +39,72 @@ class Appliance(
     }
 
     fun updatePowerData(data: PowerData) {
-        latestPowerData = data
+        latestPower = data.power
 
         if (!applianceConfig.recommendedForAutoOff) { return }
-        val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
         if (!isRoomOccupied()) {
             if (isWithinStandardUseTime()) {
-                if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
-                    logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
+                if (latestPlugStatus == null || latestPlugStatus == false) { // if plug status is null, assume it's off
+                    logger.info { "Turning on appliance ${applianceConfig.deviceName} (${latestIpAddress?.hostAddress}) due to standard use time" }
                     addTurnOnTask()
                 }
-            } else if (data.power < applianceConfig.standbyThreshold && latestPlugStatusData?.isOn == true) {
-                logger.info { "Turning off appliance ${applianceConfig.deviceName} at $currentTime due to idle" }
+            } else if (data.power < applianceConfig.standbyThreshold && latestPlugStatus == true) {
+                logger.info { "Turning off appliance ${applianceConfig.deviceName} (${latestIpAddress?.hostAddress})  due to idle" }
                 addTurnOffTask()
             }
         }
     }
 
     fun updateOccupancyData(data: OccupancyData) {
-        motionSensors[data.sensorName]?.latestOccupancyData = data
+        motionSensors[data.sensorName]?.latestOccupancy = data.occupied
 
         if (!applianceConfig.recommendedForAutoOff) { return }
-        val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
-        val power = latestPowerData?.power
+        val power = latestPower
         if (isRoomOccupied()) {
-            if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
-                logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to occupancy" }
+            if (latestPlugStatus== null || latestPlugStatus == false) { // if plug status is null, assume it's off
+                logger.info { "Turning on appliance ${applianceConfig.deviceName} (${latestIpAddress?.hostAddress}) due to occupancy" }
                 addTurnOnTask()
             }
         } else if (isWithinStandardUseTime()) {
-            if (latestPlugStatusData == null || latestPlugStatusData?.isOn == false) { // if plug status is null, assume it's off
-                logger.info { "Turning on appliance ${applianceConfig.deviceName} at $currentTime due to standard use time" }
+            if (latestPlugStatus == null || latestPlugStatus == false) { // if plug status is null, assume it's off
+                logger.info { "Turning on appliance ${applianceConfig.deviceName} (${latestIpAddress?.hostAddress}) due to standard use time" }
                 addTurnOnTask()
             }
-        } else if (power != null && power < applianceConfig.standbyThreshold && latestPlugStatusData?.isOn == true) { // if power is null, assume it's above threshold
-            logger.info { "Turning off appliance ${applianceConfig.deviceName} at $currentTime due to idle" }
+        } else if (power != null && power < applianceConfig.standbyThreshold && latestPlugStatus == true) { // if power is null, assume it's above threshold
+            logger.info { "Turning off appliance ${applianceConfig.deviceName} (${latestIpAddress?.hostAddress}) due to idle" }
             addTurnOffTask()
         }
     }
 
     fun updatePlugStatusData(data: PlugStatusData) {
-        latestPlugStatusData = data
+        latestPlugStatus = data.isOn
     }
 
     fun updateIpAddress(data: IpAddressData) {
-        latestIpAddressData = data
+        latestIpAddress = InetAddress.getByName(data.ipAddress)
     }
 
     fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name == deviceName }
 
     private fun isRoomOccupied(): Boolean {
         // if ALL motion sensors hasn't got any data, assume that room is occupied
-        return motionSensors.values.all { sensor -> sensor.latestOccupancyData == null }
-                || motionSensors.values.any { sensor -> sensor.latestOccupancyData?.occupied ?: false }
+        return motionSensors.values.all { sensor -> sensor.latestOccupancy == null }
+                || motionSensors.values.any { sensor -> sensor.latestOccupancy ?: false }
     }
 
     private fun addTurnOffTask() {
-        latestIpAddressData?.ipAddress.let { ipAddress ->
+        latestIpAddress?.let { ipAddress ->
             turnOnTaskFuture?.cancel(true)
             turnOnTaskFuture = null
-            scheduler.schedule(ApplianceTurnOffTask(InetAddress.getByName(ipAddress)), Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds))
+            scheduler.schedule(ApplianceTurnOffTask(ipAddress), Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds))
         }
     }
 
     private fun addTurnOnTask() {
-        latestIpAddressData?.ipAddress.let { ipAddress ->
+        latestIpAddress?.let { ipAddress ->
             turnOffTaskFuture?.cancel(true)
             turnOffTaskFuture = null
-            scheduler.schedule(ApplianceTurnOnTask(InetAddress.getByName(ipAddress)), Instant.now())
+            scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now())
         }
     }
 
