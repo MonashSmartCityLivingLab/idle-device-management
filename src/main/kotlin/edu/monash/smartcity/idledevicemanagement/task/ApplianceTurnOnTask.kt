@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.util.UriComponentsBuilder
 import java.net.InetAddress
 
 private val logger = KotlinLogging.logger {}
@@ -14,7 +15,8 @@ class ApplianceTurnOnTask(private val ipAddress: InetAddress) : Runnable {
     private val restTemplate = RestTemplate()
     private val headers = initHttpHeaders()
     override fun run() {
-        val url = "http://$ipAddress/switch/athom_smart_plug_v2/turn_on"
+        val url = UriComponentsBuilder.newInstance().scheme("http").host(ipAddress.hostAddress)
+            .path("/switch/athom_smart_plug_v2/turn_on").build().toUri()
         val requset = HttpEntity<String>(headers)
         try {
             restTemplate.postForEntity(url, requset, String::class.java)
