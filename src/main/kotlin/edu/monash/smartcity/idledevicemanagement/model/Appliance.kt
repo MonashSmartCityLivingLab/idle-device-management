@@ -11,7 +11,9 @@ import java.net.InetAddress
 import java.net.UnknownHostException
 import java.time.Instant
 import java.time.LocalTime
+import java.time.OffsetDateTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.Future
@@ -82,10 +84,11 @@ class Appliance(
         turnOffTaskFuture = null
         if (latestPlugStatus == true && (turnOnTaskFuture == null || turnOnTaskFuture?.isDone == true)) {
             getIpAddress()?.let { ipAddress ->
-                logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})" }
+                val cutoffTime = Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
+                logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) at ${OffsetDateTime.ofInstant(cutoffTime, ZoneOffset.UTC)}" }
                 turnOffTaskFuture = scheduler.schedule(
                     ApplianceTurnOffTask(ipAddress),
-                    Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
+                    cutoffTime
                 )
             }
         }

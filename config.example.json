@@ -11,7 +11,7 @@
             "sensorName": "athom-smart-plug-v2-a75176",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -24,7 +24,7 @@
             "sensorName": "athom-smart-plug-v2-a76dee",
             "standbyThreshold": 0.5,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -50,7 +50,7 @@
             "sensorName": "athom-smart-plug-v2-a78d3f",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -63,7 +63,7 @@
             "sensorName": "athom-smart-plug-v2-a79120",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -76,7 +76,7 @@
             "sensorName": "athom-smart-plug-v2-a795b9",
             "standbyThreshold": 0,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -102,7 +102,7 @@
             "sensorName": "athom-smart-plug-v2-a7f445",
             "standbyThreshold": 0.3,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -115,7 +115,7 @@
             "sensorName": "athom-smart-plug-v2-a7f4ca",
             "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -128,7 +128,7 @@
             "sensorName": "athom-smart-plug-v2-a7f695",
             "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
@@ -141,7 +141,7 @@
             "sensorName": "athom-smart-plug-v2-a7f704",
             "standbyThreshold": 1,
             "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 900,
+            "cutoffWaitSeconds": 120,
             "standardUseTimes": [
               {
                 "startTime": "08:30",
