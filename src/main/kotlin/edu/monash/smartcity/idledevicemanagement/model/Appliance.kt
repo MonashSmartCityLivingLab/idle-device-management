@@ -42,32 +42,13 @@ class Appliance(
     fun updatePowerData(data: PowerData) {
         latestPower = data.power
 
-        if (!applianceConfig.recommendedForAutoOff) {
-            return
-        }
-        if (!isRoomOccupied() && !isWithinStandardUseTime() && data.power < applianceConfig.standbyThreshold && latestPlugStatus == true) {
-            logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})  due to idle" }
-            addTurnOffTask()
-
-        }
+        checkPlugStatus()
     }
 
     fun updateOccupancyData(data: OccupancyData) {
         motionSensors[data.sensorName]?.latestOccupancy = data.occupied
 
-        if (!applianceConfig.recommendedForAutoOff) {
-            return
-        }
-        val power = latestPower
-        if (isRoomOccupied()) {
-            if (latestPlugStatus == null || latestPlugStatus == false) { // if plug status is null, assume it's off
-                logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to occupancy" }
-                addTurnOnTask()
-            }
-        } else if (!isWithinStandardUseTime() && power != null && power < applianceConfig.standbyThreshold && latestPlugStatus == true) { // if power is null, assume it's above threshold
-            logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to idle" }
-            addTurnOffTask()
-        }
+        checkPlugStatus()
     }
 
     fun updatePlugStatusData(data: PlugStatusData) {
@@ -94,6 +75,22 @@ class Appliance(
                 ApplianceTurnOffTask(ipAddress),
                 Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
             )
+        }
+    }
+
+    private fun checkPlugStatus() {
+        if (!applianceConfig.recommendedForAutoOff) {
+            return
+        }
+        val power = latestPower
+        if (isRoomOccupied()) {
+            if (latestPlugStatus == null || latestPlugStatus == false) { // if plug status is null, assume it's off
+                logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to occupancy" }
+                addTurnOnTask()
+            }
+        } else if (!isWithinStandardUseTime() && power != null && power < applianceConfig.standbyThreshold && latestPlugStatus == true) { // if power is null, assume it's above threshold
+            logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to idle" }
+            addTurnOffTask()
         }
     }
 
