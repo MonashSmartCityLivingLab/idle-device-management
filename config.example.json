@@ -46,9 +46,9 @@
             ]
           },
           {
-            "deviceName": "Nothing",
+            "deviceName": "Dell monitor",
             "sensorName": "athom-smart-plug-v2-a78d3f",
-            "standbyThreshold": 0,
+            "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 120,
             "standardUseTimes": [
@@ -59,9 +59,9 @@
             ]
           },
           {
-            "deviceName": "Nothing",
+            "deviceName": "Dell monitor",
             "sensorName": "athom-smart-plug-v2-a79120",
-            "standbyThreshold": 0,
+            "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 120,
             "standardUseTimes": [
@@ -72,9 +72,9 @@
             ]
           },
           {
-            "deviceName": "Nothing",
+            "deviceName": "Desk height adjustment",
             "sensorName": "athom-smart-plug-v2-a795b9",
-            "standbyThreshold": 0,
+            "standbyThreshold": 0.3,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 120,
             "standardUseTimes": [
