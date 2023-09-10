@@ -72,7 +72,7 @@ class Appliance(
         val power = latestPower
         if (isRoomOccupied()) {
             addTurnOnTask()
-        } else if (!isWithinStandardUseTime() && power != null && power < applianceConfig.standbyThreshold && latestPlugStatus == true) { // if power is null, assume it's above threshold
+        } else if (!isWithinStandardUseTime() && power != null && power < applianceConfig.standbyThreshold) { // if power is null, assume it's above threshold
             addTurnOffTask()
         }
     }
