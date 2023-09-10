@@ -71,10 +71,8 @@ class Appliance(
         }
         val power = latestPower
         if (isRoomOccupied()) {
-            logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to occupancy" }
             addTurnOnTask()
         } else if (!isWithinStandardUseTime() && power != null && power < applianceConfig.standbyThreshold && latestPlugStatus == true) { // if power is null, assume it's above threshold
-            logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) due to idle" }
             addTurnOffTask()
         }
     }
@@ -84,6 +82,7 @@ class Appliance(
         turnOnTaskFuture = null
         if (latestPlugStatus == true) {
             getIpAddress()?.let { ipAddress ->
+                logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})" }
                 scheduler.schedule(
                     ApplianceTurnOffTask(ipAddress),
                     Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
@@ -97,6 +96,7 @@ class Appliance(
         turnOffTaskFuture = null
         if (latestPlugStatus == null || latestPlugStatus == false) {  // if plug status is null, assume it's off
             getIpAddress()?.let { ipAddress ->
+                logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})" }
                 scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now())
             }
         }
