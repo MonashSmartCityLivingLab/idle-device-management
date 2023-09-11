@@ -107,10 +107,11 @@ class Appliance(
 
     private fun isWithinStandardUseTime(): Boolean {
         val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
+        val today = ZonedDateTime.now(timeZone).dayOfWeek.value
         return applianceConfig.standardUseTimes.any { standardUseTime ->
             val start = LocalTime.parse(standardUseTime.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
             val end = LocalTime.parse(standardUseTime.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
-            currentTime >= start && currentTime < end
+            currentTime >= start && currentTime < end && today in standardUseTime.daysOfWeek
         }
     }
 
