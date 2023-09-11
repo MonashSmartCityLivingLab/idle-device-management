@@ -9,14 +9,10 @@ import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler
 import java.net.InetAddress
 import java.net.UnknownHostException
-import java.time.Instant
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.Future
+import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
@@ -85,7 +81,14 @@ class Appliance(
         if (latestPlugStatus == true && (turnOffTaskFuture == null || turnOffTaskFuture?.isDone == true)) {
             getIpAddress()?.let { ipAddress ->
                 val cutoffTime = Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
-                logger.info { "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) at ${OffsetDateTime.ofInstant(cutoffTime, ZoneOffset.UTC)}" }
+                logger.info {
+                    "Turning off appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) at ${
+                        OffsetDateTime.ofInstant(
+                            cutoffTime,
+                            ZoneOffset.UTC
+                        )
+                    }"
+                }
                 turnOffTaskFuture = scheduler.schedule(
                     ApplianceTurnOffTask(ipAddress),
                     cutoffTime
@@ -97,10 +100,20 @@ class Appliance(
     private fun addTurnOnTask() {
         turnOffTaskFuture?.cancel(true)
         turnOffTaskFuture = null
+        // Add random delay to prevent surges from all appliances turning on at once
+        val randomDelay = Random.nextLong(0, 3000)
+        val time = Instant.now().plusMillis(randomDelay)
         if ((latestPlugStatus == null || latestPlugStatus == false) && (turnOnTaskFuture == null || turnOnTaskFuture?.isDone == true)) {  // if plug status is null, assume it's off
             getIpAddress()?.let { ipAddress ->
-                logger.info { "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()})" }
-                turnOnTaskFuture = scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now())
+                logger.info {
+                    "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) at ${
+                        OffsetDateTime.ofInstant(
+                            time,
+                            ZoneOffset.UTC
+                        )
+                    }"
+                }
+                turnOnTaskFuture = scheduler.schedule(ApplianceTurnOnTask(ipAddress), time)
             }
         }
     }
