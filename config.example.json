@@ -9,7 +9,7 @@
           {
             "deviceName": "HP monitor",
             "sensorName": "athom-smart-plug-v2-a75176",
-            "standbyThreshold": 0,
+            "standbyThreshold": 0.1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 120,
             "standardUseTimes": [
