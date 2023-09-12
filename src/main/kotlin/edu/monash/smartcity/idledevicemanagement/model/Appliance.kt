@@ -25,11 +25,16 @@ class Appliance(
     private val motionSensors: Map<String, MotionSensor>
 
     var turnOffTaskFuture: Future<*>? = null
+        private set
     var turnOnTaskFuture: Future<*>? = null
+        private set
 
     private var latestIpAddress: InetAddress? = null
     private var latestPower: Double? = null
     private var latestPlugStatus: Boolean? = null
+
+    private var overrideEnabled: Boolean = false
+    private var overrideTimeout: ZonedDateTime? = null
 
     init {
         motionSensors = motionSensorsConfig.associate { sensor ->
@@ -57,6 +62,20 @@ class Appliance(
 
     fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name == deviceName }
 
+    fun isOverride(): Boolean {
+        return if (!overrideEnabled) {
+            false
+        } else {
+            val now = getCurrentDateTime()
+            overrideTimeout == null || now < overrideTimeout // if overrideTimeout is null, override is semi-permanent (i.e. until manually turned off)
+        }
+    }
+
+    fun setOverride(enable: Boolean, endTime: ZonedDateTime? = null) {
+        overrideEnabled = enable
+        overrideTimeout = endTime
+    }
+
     private fun isRoomOccupied(): Boolean {
         // if ALL motion sensors hasn't got any data, assume that room is occupied
         return motionSensors.values.all { sensor -> sensor.latestOccupancy == null }
@@ -64,7 +83,8 @@ class Appliance(
     }
 
     private fun checkPlugStatus() {
-        if (!applianceConfig.recommendedForAutoOff) {
+        if (!applianceConfig.recommendedForAutoOff || isOverride()) {
+            // if appliance is not meant for auto-off or is being overridden, do not run check
             return
         }
         val power = latestPower
@@ -76,7 +96,7 @@ class Appliance(
     }
 
     private fun addTurnOffTask() {
-        turnOnTaskFuture?.cancel(true)
+        turnOnTaskFuture?.cancel(false)
         turnOnTaskFuture = null
         if (latestPlugStatus == true && (turnOffTaskFuture == null || turnOffTaskFuture?.isDone == true)) {
             getIpAddress()?.let { ipAddress ->
@@ -98,7 +118,7 @@ class Appliance(
     }
 
     private fun addTurnOnTask() {
-        turnOffTaskFuture?.cancel(true)
+        turnOffTaskFuture?.cancel(false)
         turnOffTaskFuture = null
         // Add random delay to prevent surges from all appliances turning on at once
         val randomDelay = Random.nextLong(0, 3000)
@@ -119,8 +139,8 @@ class Appliance(
     }
 
     private fun isWithinStandardUseTime(): Boolean {
-        val currentTime = ZonedDateTime.now(timeZone).toLocalTime()
-        val today = ZonedDateTime.now(timeZone).dayOfWeek.value
+        val currentTime = getCurrentDateTime().toLocalTime()
+        val today = getCurrentDateTime().dayOfWeek.value
         return applianceConfig.standardUseTimes.any { standardUseTime ->
             val start = LocalTime.parse(standardUseTime.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
             val end = LocalTime.parse(standardUseTime.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
@@ -137,4 +157,6 @@ class Appliance(
             }
         }
     }
+
+    private fun getCurrentDateTime() = ZonedDateTime.now(timeZone)
 }
