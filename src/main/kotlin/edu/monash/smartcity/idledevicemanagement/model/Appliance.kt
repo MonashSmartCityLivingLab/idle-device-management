@@ -2,6 +2,7 @@ package edu.monash.smartcity.idledevicemanagement.model
 
 import edu.monash.smartcity.idledevicemanagement.model.config.ApplianceConfig
 import edu.monash.smartcity.idledevicemanagement.model.config.MotionSensorConfig
+import edu.monash.smartcity.idledevicemanagement.model.response.ApplianceLatestValues
 import edu.monash.smartcity.idledevicemanagement.task.ApplianceTurnOffTask
 import edu.monash.smartcity.idledevicemanagement.task.ApplianceTurnOnTask
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -11,6 +12,7 @@ import java.net.InetAddress
 import java.net.UnknownHostException
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
 import kotlin.random.Random
@@ -41,6 +43,22 @@ class Appliance(
         motionSensors = motionSensorsConfig.associate { sensor ->
             sensor.sensorName to MotionSensor(sensor.sensorName)
         }
+    }
+
+    fun getLatestValues(): ApplianceLatestValues {
+        val overrideTimeoutSeconds = if (overrideEnabled && overrideTimeout != null) {
+            ChronoUnit.SECONDS.between(Instant.now(), overrideTimeout)
+        } else {
+            null
+        }
+        return ApplianceLatestValues(
+            applianceConfig.deviceName,
+            applianceConfig.sensorName,
+            latestPlugStatus,
+            latestPower,
+            overrideEnabled,
+            overrideTimeoutSeconds
+        )
     }
 
     fun updatePowerData(data: PowerData) {

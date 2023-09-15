@@ -5,12 +5,14 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import edu.monash.smartcity.idledevicemanagement.model.ApplianceException
 import edu.monash.smartcity.idledevicemanagement.model.ApplianceNotFoundException
 import edu.monash.smartcity.idledevicemanagement.model.request.SetOverrideRequest
+import edu.monash.smartcity.idledevicemanagement.model.response.ApplianceLatestValues
 import edu.monash.smartcity.idledevicemanagement.service.ApplianceService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,6 +22,12 @@ private val logger = KotlinLogging.logger {}
 
 @Controller
 class WebInterfaceController(val applianceService: ApplianceService) {
+    @GetMapping("/sensor/{sensorName:.+}")
+    @ResponseBody
+    fun getLatestValues(@PathVariable sensorName: String): ApplianceLatestValues {
+        return applianceService.getLatestValues(sensorName)
+    }
+
     @PostMapping("/sensor/{sensorName:.+}/turn-on")
     @ResponseBody
     fun turnOnApplianceNow(@PathVariable sensorName: String) {
