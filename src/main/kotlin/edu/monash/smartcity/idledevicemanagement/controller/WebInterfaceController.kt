@@ -8,6 +8,11 @@ import edu.monash.smartcity.idledevicemanagement.model.request.SetOverrideReques
 import edu.monash.smartcity.idledevicemanagement.model.response.ApplianceLatestValues
 import edu.monash.smartcity.idledevicemanagement.service.ApplianceService
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -22,24 +27,79 @@ private val logger = KotlinLogging.logger {}
 
 @Controller
 class WebInterfaceController(val applianceService: ApplianceService) {
-    @GetMapping("/sensor/{sensorName:.+}")
+    @Operation(summary = "Get information about an appliance.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "OK"),
+            ApiResponse(
+                responseCode = "404",
+                description = "No such appliance with the sensor name",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+            )
+        ]
+    )
+    @GetMapping("/sensor/{sensorName:.+}", produces = ["application/json"])
     @ResponseBody
     fun getLatestValues(@PathVariable sensorName: String): ApplianceLatestValues {
         return applianceService.getLatestValues(sensorName)
     }
 
+    @Operation(summary = "Turn on an appliance.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "OK"),
+            ApiResponse(
+                responseCode = "404",
+                description = "No such appliance with the sensor name",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+            ),
+            ApiResponse(
+                responseCode = "500",
+                description = "An error occurred while sending a command to the sensor",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+            )
+        ]
+    )
     @PostMapping("/sensor/{sensorName:.+}/turn-on")
     @ResponseBody
     fun turnOnApplianceNow(@PathVariable sensorName: String) {
         applianceService.turnOnApplianceNow(sensorName)
     }
 
+    @Operation(summary = "Turn off an appliance.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "OK"),
+            ApiResponse(
+                responseCode = "404",
+                description = "No such appliance with the sensor name",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+            ),
+            ApiResponse(
+                responseCode = "500",
+                description = "An error occurred while sending a command to the sensor",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+            )
+        ]
+    )
     @PostMapping("/sensor/{sensorName:.+}/turn-off")
     @ResponseBody
     fun turnOffApplianceNow(@PathVariable sensorName: String) {
         applianceService.turnOffApplianceNow(sensorName)
     }
-    @PostMapping("/sensor/{sensorName:.+}/override")
+
+    @Operation(summary = "Override auto on/off operations for a specified period of time (or until manually disabled).")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "OK"),
+            ApiResponse(
+                responseCode = "404",
+                description = "No such appliance with the sensor name",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+            )
+        ]
+    )
+    @PostMapping("/sensor/{sensorName:.+}/override", consumes = ["application/json"])
     @ResponseBody
     fun setOverride(@PathVariable sensorName: String, @RequestBody body: SetOverrideRequest) {
         applianceService.setOverride(sensorName, body)
