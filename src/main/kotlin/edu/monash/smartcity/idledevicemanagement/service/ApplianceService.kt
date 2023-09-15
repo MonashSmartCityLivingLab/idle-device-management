@@ -4,9 +4,11 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import edu.monash.smartcity.idledevicemanagement.model.*
 import edu.monash.smartcity.idledevicemanagement.model.config.SiteConfig
+import edu.monash.smartcity.idledevicemanagement.model.request.SetOverrideRequest
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 import java.time.ZoneId
+import java.time.ZonedDateTime
 
 private val logger = KotlinLogging.logger {}
 
@@ -67,6 +69,15 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
         val appliance = appliances[sensorName]
         if (appliance != null) {
             appliance.turnOffNow()
+        } else {
+            throw ApplianceNotFoundException("No such appliance with sensor name $sensorName")
+        }
+    }
+
+    fun setOverride(sensorName: String, payload: SetOverrideRequest) {
+        val appliance = appliances[sensorName]
+        if (appliance != null) {
+            appliance.setOverride(payload.enable, payload.durationSeconds)
         } else {
             throw ApplianceNotFoundException("No such appliance with sensor name $sensorName")
         }

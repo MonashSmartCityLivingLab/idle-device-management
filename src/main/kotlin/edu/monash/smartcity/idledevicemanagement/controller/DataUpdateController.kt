@@ -1,6 +1,6 @@
 package edu.monash.smartcity.idledevicemanagement.controller
 
-import app.urbanflo.urbanflosumoserver.model.ErrorResponse
+import edu.monash.smartcity.idledevicemanagement.model.response.ErrorResponse
 import com.fasterxml.jackson.core.JsonProcessingException
 import edu.monash.smartcity.idledevicemanagement.model.IpAddressData
 import edu.monash.smartcity.idledevicemanagement.model.OccupancyData

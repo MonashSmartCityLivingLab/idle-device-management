@@ -72,9 +72,13 @@ class Appliance(
         }
     }
 
-    fun setOverride(enable: Boolean, endTime: ZonedDateTime? = null) {
+    fun setOverride(enable: Boolean, durationSeconds: Long? = null) {
         overrideEnabled = enable
-        overrideTimeout = endTime
+        overrideTimeout = if (durationSeconds != null) {
+            ZonedDateTime.now(timeZone).plusSeconds(durationSeconds)
+        } else {
+            null
+        }
     }
 
     fun turnOnNow() {
