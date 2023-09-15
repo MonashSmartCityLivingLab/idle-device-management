@@ -2,6 +2,7 @@ package edu.monash.smartcity.idledevicemanagement.model
 
 import edu.monash.smartcity.idledevicemanagement.model.config.ApplianceConfig
 import edu.monash.smartcity.idledevicemanagement.model.config.MotionSensorConfig
+import edu.monash.smartcity.idledevicemanagement.model.response.ApplianceLatestValues
 import edu.monash.smartcity.idledevicemanagement.task.ApplianceTurnOffTask
 import edu.monash.smartcity.idledevicemanagement.task.ApplianceTurnOnTask
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -11,6 +12,8 @@ import java.net.InetAddress
 import java.net.UnknownHostException
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
 import kotlin.random.Random
 
@@ -42,6 +45,22 @@ class Appliance(
         }
     }
 
+    fun getLatestValues(): ApplianceLatestValues {
+        val overrideTimeoutSeconds = if (overrideEnabled && overrideTimeout != null) {
+            ChronoUnit.SECONDS.between(Instant.now(), overrideTimeout)
+        } else {
+            null
+        }
+        return ApplianceLatestValues(
+            applianceConfig.deviceName,
+            applianceConfig.sensorName,
+            latestPlugStatus,
+            latestPower,
+            overrideEnabled,
+            overrideTimeoutSeconds
+        )
+    }
+
     fun updatePowerData(data: PowerData) {
         latestPower = data.power
         checkPlugStatus()
@@ -71,9 +90,39 @@ class Appliance(
         }
     }
 
-    fun setOverride(enable: Boolean, endTime: ZonedDateTime? = null) {
+    fun setOverride(enable: Boolean, durationSeconds: Long? = null) {
         overrideEnabled = enable
-        overrideTimeout = endTime
+        overrideTimeout = if (durationSeconds != null) {
+            ZonedDateTime.now(timeZone).plusSeconds(durationSeconds)
+        } else {
+            null
+        }
+    }
+
+    fun turnOnNow() {
+        val ipAddress = getIpAddress()
+        if (ipAddress != null) {
+            try {
+                scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now()).get()
+            } catch (e: ExecutionException) {
+                throw ApplianceException("Cannot send turn on command to ${applianceConfig.deviceName} (${applianceConfig.sensorName}")
+            }
+        } else {
+            throw ApplianceException("The IP address for this appliance's sensor is not yet known")
+        }
+    }
+
+    fun turnOffNow() {
+        val ipAddress = getIpAddress()
+        if (ipAddress != null) {
+            try {
+                scheduler.schedule(ApplianceTurnOffTask(ipAddress), Instant.now()).get()
+            } catch (e: ExecutionException) {
+                throw ApplianceException("Cannot send turn off command to ${applianceConfig.deviceName} (${applianceConfig.sensorName}")
+            }
+        } else {
+            throw ApplianceException("The IP address for this appliance's sensor is not yet known")
+        }
     }
 
     private fun isRoomOccupied(): Boolean {

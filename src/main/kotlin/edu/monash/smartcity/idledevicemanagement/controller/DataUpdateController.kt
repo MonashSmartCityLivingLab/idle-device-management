@@ -1,6 +1,6 @@
 package edu.monash.smartcity.idledevicemanagement.controller
 
-import app.urbanflo.urbanflosumoserver.model.ErrorResponse
+import edu.monash.smartcity.idledevicemanagement.model.response.ErrorResponse
 import com.fasterxml.jackson.core.JsonProcessingException
 import edu.monash.smartcity.idledevicemanagement.model.IpAddressData
 import edu.monash.smartcity.idledevicemanagement.model.OccupancyData
@@ -21,25 +21,25 @@ private val logger = KotlinLogging.logger {}
 @Controller
 class DataUpdateController(val applianceService: ApplianceService) {
 
-    @PostMapping("/power")
+    @PostMapping("/power", consumes = ["application/json"])
     @ResponseBody
     fun updatePowerData(@RequestBody data: PowerData) {
         applianceService.updatePowerData(data)
     }
 
-    @PostMapping("/occupancy")
+    @PostMapping("/occupancy", consumes = ["application/json"])
     @ResponseBody
     fun updateOccupancyData(@RequestBody data: OccupancyData) {
         applianceService.updateOccupancyData(data)
     }
 
-    @PostMapping("/plug-status")
+    @PostMapping("/plug-status", consumes = ["application/json"])
     @ResponseBody
     fun updatePlugStatusData(@RequestBody data: PlugStatusData) {
         applianceService.updatePlugStatusData(data)
     }
 
-    @PostMapping("/ip-address")
+    @PostMapping("/ip-address", consumes = ["application/json"])
     @ResponseBody
     fun updateIpAddress(@RequestBody data: IpAddressData) {
         applianceService.updateIpAddress(data)

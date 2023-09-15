@@ -23,6 +23,7 @@ class ApplianceTurnOnTask(private val ipAddress: InetAddress) : Runnable {
             logger.info { "Response from $ipAddress: ${response.body} (status code ${response.statusCode})" }
         } catch (e: RestClientException) {
             logger.error(e) { "Cannot send turn on command to $ipAddress" }
+            throw e
         }
     }
 
