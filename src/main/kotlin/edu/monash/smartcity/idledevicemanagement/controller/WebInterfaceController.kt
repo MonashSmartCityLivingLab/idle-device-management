@@ -110,7 +110,7 @@ class WebInterfaceController(val applianceService: ApplianceService) {
     @ResponseBody
     fun handleApplianceNotFoundException(e: ApplianceNotFoundException) = ResponseEntity(
         ErrorResponse(e.message ?: "No such appliance with the specified sensor name"),
-        HttpStatus.INTERNAL_SERVER_ERROR
+        HttpStatus.NOT_FOUND
     )
 
     @ExceptionHandler(ApplianceException::class)
