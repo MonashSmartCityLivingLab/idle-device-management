@@ -53,4 +53,22 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
     fun updateIpAddress(data: IpAddressData) {
         appliances[data.sensorName]?.updateIpAddress(data)
     }
+
+    fun turnOnApplianceNow(sensorName: String) {
+        val appliance = appliances[sensorName]
+        if (appliance != null) {
+            appliance.turnOnNow()
+        } else {
+            throw ApplianceNotFoundException("No such appliance with sensor name $sensorName")
+        }
+    }
+
+    fun turnOffApplianceNow(sensorName: String) {
+        val appliance = appliances[sensorName]
+        if (appliance != null) {
+            appliance.turnOffNow()
+        } else {
+            throw ApplianceNotFoundException("No such appliance with sensor name $sensorName")
+        }
+    }
 }

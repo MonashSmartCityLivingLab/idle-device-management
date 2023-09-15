@@ -11,6 +11,7 @@ import java.net.InetAddress
 import java.net.UnknownHostException
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
 import kotlin.random.Random
 
@@ -74,6 +75,32 @@ class Appliance(
     fun setOverride(enable: Boolean, endTime: ZonedDateTime? = null) {
         overrideEnabled = enable
         overrideTimeout = endTime
+    }
+
+    fun turnOnNow() {
+        val ipAddress = getIpAddress()
+        if (ipAddress != null) {
+            try {
+                scheduler.schedule(ApplianceTurnOnTask(ipAddress), Instant.now()).get()
+            } catch (e: ExecutionException) {
+                throw ApplianceException("Cannot send turn on command to ${applianceConfig.deviceName} (${applianceConfig.sensorName}")
+            }
+        } else {
+            throw ApplianceException("The IP address for this appliance's sensor is not yet known")
+        }
+    }
+
+    fun turnOffNow() {
+        val ipAddress = getIpAddress()
+        if (ipAddress != null) {
+            try {
+                scheduler.schedule(ApplianceTurnOffTask(ipAddress), Instant.now()).get()
+            } catch (e: ExecutionException) {
+                throw ApplianceException("Cannot send turn off command to ${applianceConfig.deviceName} (${applianceConfig.sensorName}")
+            }
+        } else {
+            throw ApplianceException("The IP address for this appliance's sensor is not yet known")
+        }
     }
 
     private fun isRoomOccupied(): Boolean {
