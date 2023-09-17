@@ -15,7 +15,7 @@ private val logger = KotlinLogging.logger {}
 @Service
 class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
     final val sitesConfig: List<SiteConfig>
-    final val appliances: Map<String, Appliance>
+    private final val appliances: Map<String, Appliance>
 
 
     init {
@@ -97,4 +97,8 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
             throw ApplianceNotFoundException("No such appliance with sensor name $sensorName")
         }
     }
+
+    fun getAllLatestValues() = appliances.values.map { appliance ->
+            appliance.getLatestValues()
+        }.toList()
 }

@@ -27,7 +27,7 @@ private val logger = KotlinLogging.logger {}
 
 @Controller
 class WebInterfaceController(val applianceService: ApplianceService) {
-    @Operation(summary = "Get information about an appliance.")
+    @Operation(summary = "Get latest values of a sensor.")
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "OK"),
@@ -38,11 +38,16 @@ class WebInterfaceController(val applianceService: ApplianceService) {
             )
         ]
     )
-    @GetMapping("/sensor/{sensorName:.+}", produces = ["application/json"])
+    @GetMapping("/sensor/{sensorName:.+}/latest-values", produces = ["application/json"])
     @ResponseBody
     fun getLatestValues(@PathVariable sensorName: String): ApplianceLatestValues {
         return applianceService.getLatestValues(sensorName)
     }
+
+    @Operation(summary = "Get latest values of all sensors.")
+    @GetMapping("/latest-values", produces = ["application/json"])
+    @ResponseBody
+    fun getAllLatestValues() = applianceService.getAllLatestValues()
 
     @Operation(summary = "Turn on an appliance.")
     @ApiResponses(
