@@ -106,9 +106,9 @@ class WebInterfaceController(val applianceService: ApplianceService) {
     }
 
     @Operation(summary = "Get sites config.")
-    @GetMapping("/config", produces = ["application/json"])
+    @GetMapping("/sites-config", produces = ["application/json"])
     @ResponseBody
-    fun getConfig() = applianceService.sitesConfig
+    fun getSitesConfig() = applianceService.sitesConfig
 
 
     @ExceptionHandler(ApplianceNotFoundException::class)
