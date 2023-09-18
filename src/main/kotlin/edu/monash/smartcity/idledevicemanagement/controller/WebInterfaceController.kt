@@ -105,6 +105,7 @@ class WebInterfaceController(val applianceService: ApplianceService) {
         applianceService.setOverride(sensorName, body)
     }
 
+    @Operation(summary = "Get sites config.")
     @GetMapping("/config", produces = ["application/json"])
     @ResponseBody
     fun getConfig() = applianceService.sitesConfig
