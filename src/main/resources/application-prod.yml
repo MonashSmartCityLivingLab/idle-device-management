@@ -13,3 +13,5 @@ management:
       enabled: true
 idle-device-management:
   sites-config: ${SITES_CONFIG:#{"config.json"}}
+  frontend-url: ${FRONTEND_URL:#{"http://localhost:3000"}}
+  allow-all-cors-origins: ${ALLOW_ALL_CORS_ORIGINS:#{false}}
