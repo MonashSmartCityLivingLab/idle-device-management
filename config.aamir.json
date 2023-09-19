@@ -1,0 +1,132 @@
+[
+  {
+    "siteName": "Aamir's House",
+    "timeZoneId": "Australia/Melbourne",
+    "rooms": [
+      {
+        "roomName": "Kitchen",
+        "appliances": [
+          {
+            "deviceName": "Dishwasher",
+            "sensorName": "athom-smart-plug-v2-a79e5c",
+            "standbyThreshold": 0.1,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 300,
+            "standardUseTimes": [
+              {
+                "startTime": "20:30",
+                "endTime": "22:30",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              }
+            ]
+          },
+          {
+            "deviceName": "Microwave",
+            "sensorName": "athom-smart-plug-v2-a788ce",
+            "standbyThreshold": 0.1,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 300,
+            "standardUseTimes": [
+              {
+                "startTime": "12:00",
+                "endTime": "00:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              }
+            ]
+          }
+        ],
+        "motionSensors": [
+          {
+            "sensorName": "NOT AVAILABLE"
+          }
+        ]
+      },
+      {
+        "roomName": "Laundry",
+        "appliances": [
+          {
+            "deviceName": "Washing Machine",
+            "sensorName": "athom-smart-plug-v2-a7f4d7",
+            "standbyThreshold": 0.1,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 300,
+            "standardUseTimes": [
+              {
+                "startTime": "7:30",
+                "endTime": "22:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              }
+            ]
+          },
+          {
+            "deviceName": "Clothes Dryer",
+            "sensorName": "athom-smart-plug-v2-a78d63",
+            "standbyThreshold": 0.4,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 300,
+            "standardUseTimes": [
+              {
+                "startTime": "7:30",
+                "endTime": "22:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              }
+            ]
+          }
+        ],
+        "motionSensors": [
+          {
+            "sensorName": "NOT AVAILABLE"
+          }
+        ]
+      },
+      {
+        "roomName": "Bedroom",
+        "appliances": [
+          {
+            "deviceName": "Printer",
+            "sensorName": "athom-smart-plug-v2-a7f61d",
+            "standbyThreshold": 0.6,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 300,
+            "standardUseTimes": [
+              {
+                "startTime": "7:00",
+                "endTime": "22:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              }
+            ]
+          }
+        ],
+        "motionSensors": [
+          {
+            "sensorName": "athom-presence-sensor-f9a6e5   TO BE UPDATED"
+          }
+        ]
+      },
+      {
+        "roomName": "Lounge",
+        "appliances": [
+          {
+            "deviceName": "TV",
+            "sensorName": "athom-smart-plug-v2-a7f696",
+            "standbyThreshold": 0.1,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 150,
+            "standardUseTimes": [
+              {
+                "startTime": "11:30",
+                "endTime": "00:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              }
+            ]
+          }
+        ],
+        "motionSensors": [
+          {
+            "sensorName": "athom-presence-sensor-f9a6e5   TO BE UPDATED"
+          }
+        ]
+      }
+    ]
+  }
+]
