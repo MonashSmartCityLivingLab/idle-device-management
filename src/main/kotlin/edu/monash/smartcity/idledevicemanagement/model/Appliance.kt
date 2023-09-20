@@ -63,12 +63,12 @@ class Appliance(
 
     fun updatePowerData(data: PowerData) {
         latestPower = data.power
-        checkPlugStatus()
+        checkPlugSwitchTrigger()
     }
 
     fun updateOccupancyData(data: OccupancyData) {
         motionSensors[data.sensorName]?.latestOccupancy = data.occupied
-        checkPlugStatus()
+        checkPlugSwitchTrigger()
     }
 
     fun updatePlugStatusData(data: PlugStatusData) {
@@ -80,24 +80,6 @@ class Appliance(
     }
 
     fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name == deviceName }
-
-    fun isOverride(): Boolean {
-        return if (!overrideEnabled) {
-            false
-        } else {
-            val now = getCurrentDateTime()
-            overrideTimeout == null || now < overrideTimeout // if overrideTimeout is null, override is semi-permanent (i.e. until manually turned off)
-        }
-    }
-
-    fun setOverride(enable: Boolean, durationSeconds: Long? = null) {
-        overrideEnabled = enable
-        overrideTimeout = if (durationSeconds != null) {
-            ZonedDateTime.now(timeZone).plusSeconds(durationSeconds)
-        } else {
-            null
-        }
-    }
 
     fun turnOnNow() {
         val ipAddress = getIpAddress()
@@ -125,29 +107,35 @@ class Appliance(
         }
     }
 
-    private fun isRoomOccupied(): Boolean {
-        // if ALL motion sensors hasn't got any data, assume that room is occupied
-        return motionSensors.values.all { sensor -> sensor.latestOccupancy == null }
-                || motionSensors.values.any { sensor -> sensor.latestOccupancy ?: false }
-    }
-
-    private fun checkPlugStatus() {
+    private fun checkPlugSwitchTrigger() {
         if (!applianceConfig.recommendedForAutoOff || isOverride()) {
             // if appliance is not meant for auto-off or is being overridden, do not run check
             return
         }
-        val power = latestPower
-        if (isRoomOccupied()) {
-            addTurnOnTask()
-        } else if (!isWithinStandardUseTime() && power != null && power <= applianceConfig.standbyThreshold) { // if power is null, assume it's above threshold
-            addTurnOffTask()
+
+        if (motionSensors.isNotEmpty()) { // trigger for plugs with motion sensors
+            if (isRoomOccupied()) {
+                addTurnOnTask()
+            } else if (isPowerConsumptionBelowThreshold()) {
+                addTurnOffTask()
+            }
+        } else {
+            if (isWithinStandardUseTime()) {
+                if (hasStandardUseTimeoutElapsed()) {
+                    addTurnOffTask()
+                } else {
+                    addTurnOnTask()
+                }
+            } else if (isPowerConsumptionBelowThreshold()) {
+                addTurnOffTask()
+            }
         }
     }
 
     private fun addTurnOffTask() {
         turnOnTaskFuture?.cancel(false)
         turnOnTaskFuture = null
-        if (latestPlugStatus == true && (turnOffTaskFuture == null || turnOffTaskFuture?.isDone == true)) {
+        if (isPlugTurnedOn() && (turnOffTaskFuture == null || turnOffTaskFuture?.isDone == true)) {
             getIpAddress()?.let { ipAddress ->
                 val cutoffTime = Instant.now().plusSeconds(applianceConfig.cutoffWaitSeconds)
                 logger.info {
@@ -172,7 +160,7 @@ class Appliance(
         // Add random delay to prevent surges from all appliances turning on at once
         val randomDelay = Random.nextLong(0, 3000)
         val time = Instant.now().plusMillis(randomDelay)
-        if ((latestPlugStatus == null || latestPlugStatus == false) && (turnOnTaskFuture == null || turnOnTaskFuture?.isDone == true)) {  // if plug status is null, assume it's off
+        if (isPlugTurnedOff() && (turnOnTaskFuture == null || turnOnTaskFuture?.isDone == true)) {
             getIpAddress()?.let { ipAddress ->
                 logger.info {
                     "Turning on appliance ${applianceConfig.deviceName} (${applianceConfig.sensorName}; ${getIpAddress()}) at ${
@@ -187,13 +175,56 @@ class Appliance(
         }
     }
 
+    private fun isRoomOccupied(): Boolean {
+        // if ALL motion sensors hasn't got any data, assume that room is occupied
+        return motionSensors.values.any { sensor -> sensor.latestOccupancy ?: false }
+    }
+
+    private fun isPlugTurnedOn() = latestPlugStatus == true
+
+    private fun isPlugTurnedOff() =
+        latestPlugStatus == null || latestPlugStatus == false  // if plug status is unknown, assume it's off
+
+    private fun isPowerConsumptionBelowThreshold() =
+        latestPower?.let { power -> power <= applianceConfig.standbyThreshold } ?: false // if power consumption is unknown, assume it's above threshold
+
     private fun isWithinStandardUseTime(): Boolean {
-        val currentTime = getCurrentDateTime().toLocalTime()
-        val today = getCurrentDateTime().dayOfWeek.value
+        val currentDateTime = getCurrentDateTime()
+        val currentTime = currentDateTime.toLocalTime()
+        val today = currentDateTime.dayOfWeek.value
         return applianceConfig.standardUseTimes.any { standardUseTime ->
             val start = LocalTime.parse(standardUseTime.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
             val end = LocalTime.parse(standardUseTime.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
             currentTime >= start && currentTime < end && today in standardUseTime.daysOfWeek
+        }
+    }
+
+    private fun hasStandardUseTimeoutElapsed(): Boolean {
+        val currentDateTime = getCurrentDateTime()
+        val currentTime = currentDateTime.toLocalTime()
+        val today = currentDateTime.dayOfWeek.value
+        return applianceConfig.standardUseTimes.any { standardUseTime ->
+            val start = LocalTime.parse(standardUseTime.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
+            val end = LocalTime.parse(standardUseTime.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
+            currentTime >= start && currentTime < end.plusMinutes(15) && today in standardUseTime.daysOfWeek
+        }
+    }
+
+    fun isOverride(): Boolean {
+        return if (!overrideEnabled) {
+            false
+        } else {
+            val now = getCurrentDateTime()
+            overrideTimeout == null || now < overrideTimeout // if overrideTimeout is null, override is semi-permanent (i.e. until manually turned off)
+        }
+    }
+
+    fun setOverride(enable: Boolean, durationSeconds: Long? = null) {
+        overrideEnabled = enable
+        overrideTimeout = if (durationSeconds != null) {
+            ZonedDateTime.now(timeZone).plusSeconds(durationSeconds)
+        } else {
+            null
         }
     }
 
