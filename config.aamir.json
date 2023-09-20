@@ -34,11 +34,6 @@
               }
             ]
           }
-        ],
-        "motionSensors": [
-          {
-            "sensorName": "NOT AVAILABLE"
-          }
         ]
       },
       {
@@ -72,11 +67,6 @@
               }
             ]
           }
-        ],
-        "motionSensors": [
-          {
-            "sensorName": "NOT AVAILABLE"
-          }
         ]
       },
       {
@@ -99,7 +89,7 @@
         ],
         "motionSensors": [
           {
-            "sensorName": "athom-presence-sensor-f9a6e5   TO BE UPDATED"
+            "sensorName": "athom-presence-sensor-f9a6e5"
           }
         ]
       },
@@ -123,7 +113,7 @@
         ],
         "motionSensors": [
           {
-            "sensorName": "athom-presence-sensor-f9a6e5   TO BE UPDATED"
+            "sensorName": "athom-presence-sensor-f9a743"
           }
         ]
       }
