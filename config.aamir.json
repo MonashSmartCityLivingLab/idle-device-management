@@ -9,13 +9,28 @@
           {
             "deviceName": "Dishwasher",
             "sensorName": "athom-smart-plug-v2-a79e5c",
-            "standbyThreshold": 0.1,
+            "standbyThreshold": 0.15,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 300,
             "standardUseTimes": [
               {
-                "startTime": "20:30",
-                "endTime": "22:30",
+                "startTime": "12:30",
+                "endTime": "14:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "00:01",
+                "endTime": "01:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "20:00",
+                "endTime": "21:30",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "19:15",
+                "endTime": "20:45",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
             ]
@@ -28,8 +43,33 @@
             "cutoffWaitSeconds": 300,
             "standardUseTimes": [
               {
+                "startTime": "15:15",
+                "endTime": "16:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "07:20",
+                "endTime": "08:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "09:00",
+                "endTime": "10:30",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
                 "startTime": "12:00",
-                "endTime": "00:00",
+                "endTime": "02:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "17:00",
+                "endTime": "18:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "18:45",
+                "endTime": "20:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
             ]
@@ -48,7 +88,17 @@
             "standardUseTimes": [
               {
                 "startTime": "7:30",
-                "endTime": "22:00",
+                "endTime": "10:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "19:00",
+                "endTime": "21:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "22:30",
+                "endTime": "23:59",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
             ]
@@ -61,8 +111,18 @@
             "cutoffWaitSeconds": 300,
             "standardUseTimes": [
               {
-                "startTime": "7:30",
-                "endTime": "22:00",
+                "startTime": "10:30",
+                "endTime": "14:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "9:00",
+                "endTime": "10:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "00:00",
+                "endTime": "01:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
             ]
@@ -104,8 +164,28 @@
             "cutoffWaitSeconds": 150,
             "standardUseTimes": [
               {
-                "startTime": "11:30",
-                "endTime": "00:00",
+                "startTime": "10:00",
+                "endTime": "12:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "14:00",
+                "endTime": "17:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "16:00",
+                "endTime": "18:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "19:45",
+                "endTime": "23:59",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              },
+              {
+                "startTime": "00:01",
+                "endTime": "02:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
             ]
