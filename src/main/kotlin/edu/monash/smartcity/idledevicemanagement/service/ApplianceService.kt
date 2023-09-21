@@ -33,7 +33,8 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
                         appliance.sensorName to Appliance(
                             appliance,
                             ZoneId.of(site.timeZoneId),
-                            room.motionSensors
+                            room.motionSensors,
+                            room.appliances.count()
                         )
                     )
                 }

@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
+import kotlin.math.log2
 import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
@@ -22,10 +23,12 @@ private val logger = KotlinLogging.logger {}
 class Appliance(
     private val applianceConfig: ApplianceConfig,
     private val timeZone: ZoneId,
-    motionSensorsConfig: List<MotionSensorConfig>
+    motionSensorsConfig: List<MotionSensorConfig>,
+    numberOfAppliancesInRoom: Int
 ) {
     private val scheduler: TaskScheduler = DefaultManagedTaskScheduler()
     private val motionSensors: Map<String, MotionSensor>
+    private val maxTurnOnDelay = (log2(numberOfAppliancesInRoom.toDouble()) * 1000).toLong()
 
     private var turnOffTaskFuture: Future<*>? = null
     private var turnOnTaskFuture: Future<*>? = null
@@ -171,7 +174,7 @@ class Appliance(
         turnOffTaskFuture?.cancel(false)
         turnOffTaskFuture = null
         // Add random delay to prevent surges from all appliances turning on at once
-        val randomDelay = Random.nextLong(0, 3000)
+        val randomDelay = Random.nextLong(0, maxTurnOnDelay)
         val time = Instant.now().plusMillis(randomDelay)
         if (isPlugTurnedOff() && (turnOnTaskFuture == null || turnOnTaskFuture?.isDone == true)) {
             getIpAddress()?.let { ipAddress ->
