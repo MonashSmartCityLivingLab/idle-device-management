@@ -27,10 +27,8 @@ class Appliance(
     private val scheduler: TaskScheduler = DefaultManagedTaskScheduler()
     private val motionSensors: Map<String, MotionSensor>
 
-    var turnOffTaskFuture: Future<*>? = null
-        private set
-    var turnOnTaskFuture: Future<*>? = null
-        private set
+    private var turnOffTaskFuture: Future<*>? = null
+    private var turnOnTaskFuture: Future<*>? = null
 
     private var latestIpAddress: InetAddress? = null
     private var latestPower: Double? = null
@@ -79,7 +77,26 @@ class Appliance(
         latestIpAddress = InetAddress.getByName(data.ipAddress)
     }
 
-    fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name == deviceName }
+    fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name.lowercase() == deviceName.lowercase() }
+
+    fun isOverride(): Boolean {
+        return if (!overrideEnabled) {
+            false
+        } else {
+            val now = getCurrentDateTime()
+            overrideTimeout == null || now < overrideTimeout // if overrideTimeout is null, override is semi-permanent (i.e. until manually turned off)
+        }
+    }
+
+    fun setOverride(enable: Boolean, durationSeconds: Long? = null) {
+        overrideEnabled = enable
+        overrideTimeout = if (durationSeconds != null) {
+            ZonedDateTime.now(timeZone).plusSeconds(durationSeconds)
+        } else {
+            null
+        }
+    }
+
 
     fun turnOnNow() {
         val ipAddress = getIpAddress()
@@ -121,11 +138,7 @@ class Appliance(
             }
         } else {
             if (isWithinStandardUseTime()) {
-                if (hasStandardUseTimeoutElapsed()) {
-                    addTurnOffTask()
-                } else {
-                    addTurnOnTask()
-                }
+                addTurnOnTask()
             } else if (isPowerConsumptionBelowThreshold()) {
                 addTurnOffTask()
             }
@@ -199,34 +212,6 @@ class Appliance(
         }
     }
 
-    private fun hasStandardUseTimeoutElapsed(): Boolean {
-        val currentDateTime = getCurrentDateTime()
-        val currentTime = currentDateTime.toLocalTime()
-        val today = currentDateTime.dayOfWeek.value
-        return applianceConfig.standardUseTimes.any { standardUseTime ->
-            val start = LocalTime.parse(standardUseTime.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
-            val end = LocalTime.parse(standardUseTime.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
-            currentTime >= start && currentTime < end.plusMinutes(15) && today in standardUseTime.daysOfWeek
-        }
-    }
-
-    fun isOverride(): Boolean {
-        return if (!overrideEnabled) {
-            false
-        } else {
-            val now = getCurrentDateTime()
-            overrideTimeout == null || now < overrideTimeout // if overrideTimeout is null, override is semi-permanent (i.e. until manually turned off)
-        }
-    }
-
-    fun setOverride(enable: Boolean, durationSeconds: Long? = null) {
-        overrideEnabled = enable
-        overrideTimeout = if (durationSeconds != null) {
-            ZonedDateTime.now(timeZone).plusSeconds(durationSeconds)
-        } else {
-            null
-        }
-    }
 
     private fun getIpAddress(): InetAddress? {
         return latestIpAddress ?: run {
