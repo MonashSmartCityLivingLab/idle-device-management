@@ -16,6 +16,8 @@ import java.time.temporal.ChronoUnit
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
 import kotlin.math.log2
+import kotlin.math.max
+import kotlin.math.roundToLong
 import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
@@ -28,7 +30,7 @@ class Appliance(
 ) {
     private val scheduler: TaskScheduler = DefaultManagedTaskScheduler()
     private val motionSensors: Map<String, MotionSensor>
-    private val maxTurnOnDelay = (log2(numberOfAppliancesInRoom.toDouble()) * 1000).toLong()
+    private val maxTurnOnDelay = max(log2(numberOfAppliancesInRoom.toDouble()).roundToLong(), 1) * 1000
 
     private var turnOffTaskFuture: Future<*>? = null
     private var turnOnTaskFuture: Future<*>? = null
