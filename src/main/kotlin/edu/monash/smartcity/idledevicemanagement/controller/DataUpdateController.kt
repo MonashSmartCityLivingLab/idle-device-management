@@ -1,11 +1,11 @@
 package edu.monash.smartcity.idledevicemanagement.controller
 
-import edu.monash.smartcity.idledevicemanagement.model.response.ErrorResponse
 import com.fasterxml.jackson.core.JsonProcessingException
 import edu.monash.smartcity.idledevicemanagement.model.IpAddressData
 import edu.monash.smartcity.idledevicemanagement.model.OccupancyData
 import edu.monash.smartcity.idledevicemanagement.model.PlugStatusData
 import edu.monash.smartcity.idledevicemanagement.model.PowerData
+import edu.monash.smartcity.idledevicemanagement.model.response.ErrorResponse
 import edu.monash.smartcity.idledevicemanagement.service.ApplianceService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.http.HttpStatus

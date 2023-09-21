@@ -14,9 +14,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 @EnableWebMvc
-class WebConfig: WebMvcConfigurer {
+class WebConfig : WebMvcConfigurer {
     @Value("\${idle-device-management.frontend-url}")
     private lateinit var frontendUrl: String
+
     @Value("\${idle-device-management.allow-all-cors-origins}")
     private var allowAllCorsOrigins: Boolean = false
 

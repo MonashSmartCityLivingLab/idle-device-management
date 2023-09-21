@@ -7,20 +7,6 @@
         "roomName": "BG06",
         "appliances": [
           {
-            "deviceName": "HP monitor",
-            "sensorName": "athom-smart-plug-v2-a75176",
-            "standbyThreshold": 0.1,
-            "recommendedForAutoOff": true,
-            "cutoffWaitSeconds": 120,
-            "standardUseTimes": [
-              {
-                "startTime": "08:30",
-                "endTime": "17:00",
-                "daysOfWeek": [1, 2, 3, 4, 5]
-              }
-            ]
-          },
-          {
             "deviceName": "Dell docking station",
             "sensorName": "athom-smart-plug-v2-a76dee",
             "standbyThreshold": 0.5,
@@ -166,6 +152,26 @@
             "sensorName": "athom-presence-sensor-f9a715"
           }
         ]
+      },
+      {
+        "roomName": "BG06 no motion sensor example",
+        "appliances": [
+          {
+            "deviceName": "HP monitor",
+            "sensorName": "athom-smart-plug-v2-a75176",
+            "standbyThreshold": 0.1,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 120,
+            "standardUseTimes": [
+              {
+                "startTime": "08:30",
+                "endTime": "17:00",
+                "daysOfWeek": [1, 2, 3, 4, 5]
+              }
+            ]
+          }
+        ],
+        "motionSensors": []
       }
     ]
   }

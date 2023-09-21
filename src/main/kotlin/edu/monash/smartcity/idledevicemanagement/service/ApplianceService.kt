@@ -33,7 +33,8 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
                         appliance.sensorName to Appliance(
                             appliance,
                             ZoneId.of(site.timeZoneId),
-                            room.motionSensors
+                            room.motionSensors,
+                            room.appliances.count()
                         )
                     )
                 }
@@ -99,6 +100,6 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
     }
 
     fun getAllLatestValues() = appliances.values.map { appliance ->
-            appliance.getLatestValues()
-        }.toList()
+        appliance.getLatestValues()
+    }.toList()
 }
