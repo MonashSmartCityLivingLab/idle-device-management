@@ -80,7 +80,8 @@ class Appliance(
         latestIpAddress = InetAddress.getByName(data.ipAddress)
     }
 
-    fun hasMotionSensorInRoom(deviceName: String) = motionSensors.keys.any { name -> name.lowercase() == deviceName.lowercase() }
+    fun hasMotionSensorInRoom(deviceName: String) =
+        motionSensors.keys.any { name -> name.lowercase() == deviceName.lowercase() }
 
     fun isOverride(): Boolean {
         return if (!overrideEnabled) {
@@ -202,7 +203,8 @@ class Appliance(
         latestPlugStatus == null || latestPlugStatus == false  // if plug status is unknown, assume it's off
 
     private fun isPowerConsumptionBelowThreshold() =
-        latestPower?.let { power -> power <= applianceConfig.standbyThreshold } ?: false // if power consumption is unknown, assume it's above threshold
+        latestPower?.let { power -> power <= applianceConfig.standbyThreshold }
+            ?: false // if power consumption is unknown, assume it's above threshold
 
     private fun isWithinStandardUseTime(): Boolean {
         val currentDateTime = getCurrentDateTime()

@@ -29,7 +29,10 @@ class WebInterfaceController(val applianceService: ApplianceService) {
             ApiResponse(
                 responseCode = "404",
                 description = "No such appliance with the sensor name",
-                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+                content = [Content(
+                    schema = Schema(implementation = ErrorResponse::class),
+                    mediaType = "application/json"
+                )]
             )
         ]
     )
@@ -51,12 +54,18 @@ class WebInterfaceController(val applianceService: ApplianceService) {
             ApiResponse(
                 responseCode = "404",
                 description = "No such appliance with the sensor name",
-                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+                content = [Content(
+                    schema = Schema(implementation = ErrorResponse::class),
+                    mediaType = "application/json"
+                )]
             ),
             ApiResponse(
                 responseCode = "500",
                 description = "An error occurred while sending a command to the sensor",
-                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+                content = [Content(
+                    schema = Schema(implementation = ErrorResponse::class),
+                    mediaType = "application/json"
+                )]
             )
         ]
     )
@@ -73,12 +82,18 @@ class WebInterfaceController(val applianceService: ApplianceService) {
             ApiResponse(
                 responseCode = "404",
                 description = "No such appliance with the sensor name",
-                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+                content = [Content(
+                    schema = Schema(implementation = ErrorResponse::class),
+                    mediaType = "application/json"
+                )]
             ),
             ApiResponse(
                 responseCode = "500",
                 description = "An error occurred while sending a command to the sensor",
-                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+                content = [Content(
+                    schema = Schema(implementation = ErrorResponse::class),
+                    mediaType = "application/json"
+                )]
             )
         ]
     )
@@ -95,7 +110,10 @@ class WebInterfaceController(val applianceService: ApplianceService) {
             ApiResponse(
                 responseCode = "404",
                 description = "No such appliance with the sensor name",
-                content = [Content(schema = Schema(implementation = ErrorResponse::class), mediaType = "application/json")]
+                content = [Content(
+                    schema = Schema(implementation = ErrorResponse::class),
+                    mediaType = "application/json"
+                )]
             )
         ]
     )

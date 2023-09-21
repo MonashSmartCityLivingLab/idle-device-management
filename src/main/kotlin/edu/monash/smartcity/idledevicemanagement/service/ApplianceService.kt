@@ -100,6 +100,6 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
     }
 
     fun getAllLatestValues() = appliances.values.map { appliance ->
-            appliance.getLatestValues()
-        }.toList()
+        appliance.getLatestValues()
+    }.toList()
 }
