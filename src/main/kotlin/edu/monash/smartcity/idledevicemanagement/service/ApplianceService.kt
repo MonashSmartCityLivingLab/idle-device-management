@@ -43,6 +43,8 @@ class ApplianceService(sitesConfigProperties: SitesConfigProperties) {
         appliances = pairs.toMap()
     }
 
+    fun filterSites(siteName: String): List<SiteConfig> = sitesConfig.filter { site -> siteName.lowercase() in site.siteName.lowercase() }
+
     fun updatePowerData(data: PowerData) {
         appliances[data.sensorName]?.updatePowerData(data)
     }
