@@ -74,7 +74,8 @@
               }
             ]
           }
-        ]
+        ],
+        "motionSensors": []
       },
       {
         "roomName": "Laundry",
@@ -87,7 +88,7 @@
             "cutoffWaitSeconds": 300,
             "standardUseTimes": [
               {
-                "startTime": "7:30",
+                "startTime": "07:30",
                 "endTime": "10:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               },
@@ -116,7 +117,7 @@
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               },
               {
-                "startTime": "9:00",
+                "startTime": "09:00",
                 "endTime": "10:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               },
@@ -127,7 +128,8 @@
               }
             ]
           }
-        ]
+        ],
+        "motionSensors": []
       },
       {
         "roomName": "Bedroom",
@@ -140,7 +142,7 @@
             "cutoffWaitSeconds": 300,
             "standardUseTimes": [
               {
-                "startTime": "7:00",
+                "startTime": "07:00",
                 "endTime": "22:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
