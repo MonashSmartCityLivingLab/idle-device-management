@@ -128,7 +128,8 @@
               }
             ]
           }
-        ]
+        ],
+        "motionSensors": []
       },
       {
         "roomName": "Bedroom",
