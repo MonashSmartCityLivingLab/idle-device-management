@@ -137,7 +137,7 @@ class Appliance(
         }
 
         if (motionSensors.isNotEmpty()) { // trigger for plugs with motion sensors
-            if (isRoomOccupied()) {
+            if (isRoomOccupied() || !isPowerConsumptionBelowThreshold()) {
                 addTurnOnTask()
             } else if (isPowerConsumptionBelowThreshold()) {
                 addTurnOffTask()
@@ -145,7 +145,7 @@ class Appliance(
         } else {
             if (isWithinStandardUseTime()) {
                 addTurnOnTask()
-            } else if (isPowerConsumptionBelowThreshold()) {
+            } else if (isPowerConsumptionBelowThreshold() || !isPowerConsumptionBelowThreshold()) {
                 addTurnOffTask()
             }
         }
