@@ -136,11 +136,30 @@
         "motionSensors": []
       },
       {
-        "roomName": "Bedroom",
+        "roomName": "Bedroom4",
         "appliances": [
           {
             "deviceName": "Printer",
             "sensorName": "athom-smart-plug-v2-a7f61d",
+            "standbyThreshold": 0.6,
+            "recommendedForAutoOff": true,
+            "cutoffWaitSeconds": 300,
+            "standardUseTimes": [
+              {
+                "startTime": "07:00",
+                "endTime": "22:00",
+                "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "roomName": "Bedroom1",
+        "appliances": [
+          {
+            "deviceName": "Portable Heater",
+            "sensorName": "athom-smart-plug-v2-a78815",
             "standbyThreshold": 0.6,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 300,
