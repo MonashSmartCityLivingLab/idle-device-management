@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web:3.1.3")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.1.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.22")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.3")
