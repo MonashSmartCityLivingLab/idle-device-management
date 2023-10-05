@@ -50,3 +50,22 @@ docker compose up --force-recreate postgresql mosquitto collector athom-smart-pl
 ### Manual
 
 A [systemd service file](idle-device-management.service)
+
+## Sites configuration
+
+In order for the system to run, you'll need to supply a sites configuration which lists rooms, smart plugs and motion sensors.
+
+In general, it is a JSON file which contains an array of sites, which contain an array of rooms, which itself contain an
+array of appliances and motion sensors. 
+
+For each appliance, it has a standard use times which are the typical times that the appliance is used.
+
+An example sites configuration can be found at `sites.example.json`
+
+### Sites configuration notes
+
+- `startTime` and `endTime` must be specified as 24-hour format, in `HH:mm` format
+  - If the hour or minute is 0 to 9, they need to be zero padded, i.e. `09:00` instead of `9:00`
+- All attributes must be present on each item. If there are no motion sensors in a room, put an empty array (`[]`) instead
+- If you want to have some device controlled by motion sensors and others not controlled by one, then you need to split the room into 2
+- When a standard use time spans across days, break it up on midnight, i.e. `start -> 23:59` and `00:00 -> end`

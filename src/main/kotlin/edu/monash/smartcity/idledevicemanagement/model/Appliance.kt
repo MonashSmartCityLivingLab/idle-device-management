@@ -22,6 +22,9 @@ import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ * A class for managing an appliance, which is connected to a smart plug and located with a room with zero or more motion sensors.
+ */
 class Appliance(
     private val applianceConfig: ApplianceConfig,
     private val timeZone: ZoneId,
