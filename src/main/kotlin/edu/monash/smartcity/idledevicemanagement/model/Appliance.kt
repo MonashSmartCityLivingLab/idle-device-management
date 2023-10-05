@@ -143,7 +143,7 @@ class Appliance(
                 addTurnOffTask()
             }
         } else {
-            if (isWithinStandardUseTime()|| !isPowerConsumptionBelowThreshold()) {
+            if (isWithinStandardUseTime() || !isPowerConsumptionBelowThreshold()) {
                 addTurnOnTask()
             } else if (isPowerConsumptionBelowThreshold()) {
                 addTurnOffTask()
