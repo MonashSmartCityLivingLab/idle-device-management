@@ -112,7 +112,7 @@
         ],
         "motionSensors": [ 
           {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
+            "sensorName": "athom-presence-sensor-f9a74f"
           }
         ]
       },
@@ -134,11 +134,7 @@
             ]
           }
         ],
-        "motionSensors": [ 
-          {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
-          }
-        ]
+        "motionSensors": []
       },
       {
         "roomName": "Study",
@@ -172,11 +168,7 @@
             ]
           }
         ],
-        "motionSensors": [ 
-          {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
-          }
-        ]
+        "motionSensors": []
       },
       {
         "roomName": "Lounge",
@@ -203,7 +195,7 @@
         ],
         "motionSensors": [ 
           {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
+            "sensorName": "athom-presence-sensor-f9a6c5"
           }
         ]
       }
