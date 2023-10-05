@@ -42,7 +42,7 @@
             "cutoffWaitSeconds": 180,
             "standardUseTimes": [
               {
-                "startTime": "8:00",
+                "startTime": "08:00",
                 "endTime": "11:00",
                 "daysOfWeek": [6, 7]
               },
@@ -112,7 +112,7 @@
         ],
         "motionSensors": [ 
           {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
+            "sensorName": "athom-presence-sensor-f9a74f"
           }
         ]
       },
@@ -127,18 +127,14 @@
             "cutoffWaitSeconds": 300,
             "standardUseTimes": [
               {
-                "startTime": "9:00",
+                "startTime": "09:00",
                 "endTime": "22:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
             ]
           }
         ],
-        "motionSensors": [ 
-          {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
-          }
-        ]
+        "motionSensors": []
       },
       {
         "roomName": "Study",
@@ -151,7 +147,7 @@
             "cutoffWaitSeconds": 300,
             "standardUseTimes": [
               {
-                "startTime": "9:00",
+                "startTime": "09:00",
                 "endTime": "22:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
@@ -172,11 +168,7 @@
             ]
           }
         ],
-        "motionSensors": [ 
-          {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
-          }
-        ]
+        "motionSensors": []
       },
       {
         "roomName": "Lounge",
@@ -189,7 +181,7 @@
             "cutoffWaitSeconds": 180,
             "standardUseTimes": [
               {
-                "startTime": "9:00",
+                "startTime": "09:00",
                 "endTime": "13:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               },
@@ -203,7 +195,7 @@
         ],
         "motionSensors": [ 
           {
-            "sensorName": "athom-presence-sensor-f9a715   TO BE UPDATED"
+            "sensorName": "athom-presence-sensor-f9a6c5"
           }
         ]
       }
