@@ -47,10 +47,6 @@ cd taatta
 docker compose up --force-recreate postgresql mosquitto collector athom-smart-plug athom-presence-sensor idle-device-management device-control-interface
 ```
 
-### Manual
-
-A [systemd service file](idle-device-management.service)
-
 ## Sites configuration
 
 In order for the system to run, you'll need to supply a sites configuration which lists rooms, smart plugs and motion sensors.
