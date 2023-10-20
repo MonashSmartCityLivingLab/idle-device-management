@@ -69,3 +69,7 @@ An example sites configuration can be found at `sites.example.json`
 - All attributes must be present on each item. If there are no motion sensors in a room, put an empty array (`[]`) instead
 - If you want to have some device controlled by motion sensors and others not controlled by one, then you need to split the room into 2
 - When a standard use time spans across days, break it up on midnight, i.e. `start -> 23:59` and `00:00 -> end`
+
+## Licence
+
+Licensed under [Apache License 2.0](LICENSE).
