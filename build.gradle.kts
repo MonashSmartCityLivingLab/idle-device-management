@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
-    kotlin("jvm") version "1.9.10"
-    kotlin("plugin.spring") version "1.9.22"
+    kotlin("jvm") version "1.9.23"
+    kotlin("plugin.spring") version "1.9.23"
 }
 
 group = "edu.monash.smartcity"
@@ -19,12 +19,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web:3.1.4")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.2.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.23")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.1")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.4")
-    implementation("io.github.oshai:kotlin-logging:5.1.0")
+    implementation("io.github.oshai:kotlin-logging:6.0.3")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 }
 
