@@ -23,7 +23,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.1")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.4")
     implementation("io.github.oshai:kotlin-logging:5.1.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 }
