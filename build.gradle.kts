@@ -25,7 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.4")
     implementation("io.github.oshai:kotlin-logging:6.0.3")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 }
 
 tasks.withType<KotlinCompile> {
