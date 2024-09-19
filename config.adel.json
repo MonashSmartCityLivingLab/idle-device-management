@@ -189,7 +189,7 @@
             "cutoffWaitSeconds": 360,
             "standardUseTimes": [
               {
-                "startTime": "18:30",
+                "startTime": "18:00",
                 "endTime": "23:59",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
@@ -215,7 +215,7 @@
               },
               {
                 "startTime": "16:00",
-                "endTime": "22:00",
+                "endTime": "00:00",
                 "daysOfWeek": [1, 2, 3, 4, 5, 6, 7]
               }
             ]
