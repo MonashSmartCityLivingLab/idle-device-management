@@ -7,7 +7,7 @@ on:
       - gh-actions
   pull_request:
 env:
-  SITES_CONFIG: config.example.json
+  SITES_CONFIG: config.json
 jobs:
   build:
     runs-on: ubuntu-latest
