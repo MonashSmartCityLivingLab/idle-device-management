@@ -138,11 +138,7 @@
             ]
           }
         ],
-        "motionSensors": [ 
-          {
-            "sensorName": "athom-presence-sensor-f9a74f"
-          }
-        ]
+        "motionSensors": []
       },
       {
         "roomName": "Laundry",
