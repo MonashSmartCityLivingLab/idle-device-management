@@ -97,7 +97,7 @@
           },
           {
             "deviceName": "Kettle",
-            "sensorName": "athom-smart-plug-v2-a78696",
+            "sensorName": "athom-smart-plug-v2-a76459",
             "standbyThreshold": 1,
             "recommendedForAutoOff": true,
             "cutoffWaitSeconds": 180,
